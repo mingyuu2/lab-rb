@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS collected_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_ip TEXT,
+    payload TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);

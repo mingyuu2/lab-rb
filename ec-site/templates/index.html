@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Nova Shop — 全商品{% endblock %}
+{% block content %}
+  <div class="mb-8 flex flex-wrap items-center gap-2">
+    <a href="{{ url_for('index') }}"
+       class="rounded-control px-3 py-1.5 text-sm {{ 'bg-accent text-white' if not selected else 'border border-[#E5E7EB] bg-white text-[#374151] hover:border-accent hover:text-accent' }}">
+      すべて
+    </a>
+    {% for c in categories %}
+      <a href="{{ url_for('index', category=c) }}"
+         class="rounded-control px-3 py-1.5 text-sm {{ 'bg-accent text-white' if selected == c else 'border border-[#E5E7EB] bg-white text-[#374151] hover:border-accent hover:text-accent' }}">
+        {{ c }}
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+    {% for p in products %}
+      <a href="{{ url_for('product_detail', product_id=p.id) }}" class="card block overflow-hidden">
+        <img src="{{ url_for('product_image', url=p.image_url) }}" alt="{{ p.name }}" class="aspect-square w-full object-cover">
+        <div class="p-4">
+          <p class="text-xs text-[#9CA3AF]">{{ p.category }}</p>
+          <p class="mt-1 truncate text-sm font-medium">{{ p.name }}</p>
+          <p class="mt-1 text-sm font-semibold text-accent">¥{{ "{:,}".format(p.price) }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

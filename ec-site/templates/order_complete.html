@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}注文完了 — Nova Shop{% endblock %}
+{% block content %}
+  <div class="card mx-auto max-w-md p-10 text-center">
+    <p class="text-lg font-semibold text-accent">ご注文が完了しました。</p>
+    <p class="mt-4 text-sm text-[#374151]">お届け先: {{ name }}</p>
+    <p class="text-sm text-[#374151]">お届け先住所: {{ address }}</p>
+    <a href="{{ url_for('index') }}" class="btn-solid mt-8 inline-flex">買い物を続ける</a>
+  </div>
+{% endblock %}

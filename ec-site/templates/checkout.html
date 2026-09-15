@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}注文手続き — Nova Shop{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">注文手続き</h1>
+
+  <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
+    <div class="card divide-y divide-[#E5E7EB]">
+      {% for item in items %}
+        <div class="flex items-center justify-between p-4 text-sm">
+          <span>{{ item.product.name }} x {{ item.qty }}</span>
+          <span class="font-medium">¥{{ "{:,}".format(item.subtotal) }}</span>
+        </div>
+      {% endfor %}
+      <div class="flex items-center justify-between p-4 text-sm font-semibold">
+        <span>合計</span>
+        <span class="text-accent">¥{{ "{:,}".format(total) }}</span>
+      </div>
+    </div>
+
+    <form action="{{ url_for('checkout') }}" method="post" class="card space-y-4 p-6">
+      <div>
+        <label class="mb-1 block text-sm font-medium">お届け先のお名前</label>
+        <input type="text" name="name" required class="input-field">
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium">お届け先住所</label>
+        <input type="text" name="address" required class="input-field">
+      </div>
+      <button type="submit" class="btn-solid w-full">注文を確定する</button>
+    </form>
+  </div>
+{% endblock %}

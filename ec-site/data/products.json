@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "name": "ワイヤレスイヤホン",
+    "category": "電子機器",
+    "price": 9900,
+    "description": "ノイズキャンセリング機能付きのワイヤレスイヤホンです。",
+    "image": "p1.svg",
+    "image_url": "http://ec-site/static/img/products/p1.svg"
+  },
+  {
+    "id": 2,
+    "name": "スマートウォッチ",
+    "category": "電子機器",
+    "price": 22100,
+    "description": "心拍数・睡眠測定が可能なスマートウォッチです。",
+    "image": "p2.svg",
+    "image_url": "http://ec-site/static/img/products/p2.svg"
+  },
+  {
+    "id": 3,
+    "name": "モバイルバッテリー 20000mAh",
+    "category": "電子機器",
+    "price": 4300,
+    "description": "急速充電に対応した大容量モバイルバッテリーです。",
+    "image": "p3.svg",
+    "image_url": "http://ec-site/static/img/products/p3.svg"
+  },
+  {
+    "id": 4,
+    "name": "ミニBluetoothスピーカー",
+    "category": "電子機器",
+    "price": 5000,
+    "description": "持ち運びに便利な小型Bluetoothスピーカーです。",
+    "image": "p4.svg",
+    "image_url": "http://ec-site/static/img/products/p4.svg"
+  },
+  {
+    "id": 5,
+    "name": "USB-Cマルチハブ",
+    "category": "電子機器",
+    "price": 3600,
+    "description": "HDMI・USB・SDカードに対応したマルチハブです。",
+    "image": "p5.svg",
+    "image_url": "http://ec-site/static/img/products/p5.svg"
+  },
+  {
+    "id": 6,
+    "name": "オーバーサイズコットンTシャツ",
+    "category": "ファッション/衣料",
+    "price": 3200,
+    "description": "柔らかいコットン素材のオーバーサイズTシャツです。",
+    "image": "p6.svg",
+    "image_url": "http://ec-site/static/img/products/p6.svg"
+  },
+  {
+    "id": 7,
+    "name": "スリムフィットデニムパンツ",
+    "category": "ファッション/衣料",
+    "price": 6600,
+    "description": "伸縮性に優れたスリムフィットデニムパンツです。",
+    "image": "p7.svg",
+    "image_url": "http://ec-site/static/img/products/p7.svg"
+  },
+  {
+    "id": 8,
+    "name": "軽量ダウンジャケット",
+    "category": "ファッション/衣料",
+    "price": 14300,
+    "description": "軽くて暖かい軽量ダウンジャケットです。",
+    "image": "p8.svg",
+    "image_url": "http://ec-site/static/img/products/p8.svg"
+  },
+  {
+    "id": 9,
+    "name": "ニットカーディガン",
+    "category": "ファッション/衣料",
+    "price": 7700,
+    "description": "肌触りの良いクラシックニットカーディガンです。",
+    "image": "p9.svg",
+    "image_url": "http://ec-site/static/img/products/p9.svg"
+  },
+  {
+    "id": 10,
+    "name": "キャンバススニーカー",
+    "category": "ファッション/衣料",
+    "price": 8800,
+    "description": "軽やかに履けるキャンバススニーカーです。",
+    "image": "p10.svg",
+    "image_url": "http://ec-site/static/img/products/p10.svg"
+  },
+  {
+    "id": 11,
+    "name": "セラミックディフューザー",
+    "category": "ホーム/リビング",
+    "price": 3900,
+    "description": "ほのかな香りを広げるセラミックディフューザーです。",
+    "image": "p11.svg",
+    "image_url": "http://ec-site/static/img/products/p11.svg"
+  },
+  {
+    "id": 12,
+    "name": "マイクロファイバー毛布",
+    "category": "ホーム/リビング",
+    "price": 4700,
+    "description": "ふんわりとした肌触りのマイクロファイバー毛布です。",
+    "image": "p12.svg",
+    "image_url": "http://ec-site/static/img/products/p12.svg"
+  },
+  {
+    "id": 13,
+    "name": "無垢材トレー",
+    "category": "ホーム/リビング",
+    "price": 2800,
+    "description": "インテリア小物として人気の無垢材トレーです。",
+    "image": "p13.svg",
+    "image_url": "http://ec-site/static/img/products/p13.svg"
+  },
+  {
+    "id": 14,
+    "name": "ムードランプスタンド",
+    "category": "ホーム/リビング",
+    "price": 5300,
+    "description": "やわらかな灯りのムードランプスタンドです。",
+    "image": "p14.svg",
+    "image_url": "http://ec-site/static/img/products/p14.svg"
+  },
+  {
+    "id": 15,
+    "name": "収納ボックス3点セット",
+    "category": "ホーム/リビング",
+    "price": 2400,
+    "description": "スペースを有効活用できる収納ボックス3点セットです。",
+    "image": "p15.svg",
+    "image_url": "http://ec-site/static/img/products/p15.svg"
+  },
+  {
+    "id": 16,
+    "name": "保湿クリーム",
+    "category": "ビューティー",
+    "price": 3600,
+    "description": "さっぱりと馴染む保湿クリームです。",
+    "image": "p16.svg",
+    "image_url": "http://ec-site/static/img/products/p16.svg"
+  },
+  {
+    "id": 17,
+    "name": "ビタミンCセラム",
+    "category": "ビューティー",
+    "price": 4200,
+    "description": "肌のトーンアップをサポートするセラムです。",
+    "image": "p17.svg",
+    "image_url": "http://ec-site/static/img/products/p17.svg"
+  },
+  {
+    "id": 18,
+    "name": "リップバーム3本セット",
+    "category": "ビューティー",
+    "price": 2000,
+    "description": "しっとり潤うリップバーム3本セットです。",
+    "image": "p18.svg",
+    "image_url": "http://ec-site/static/img/products/p18.svg"
+  },
+  {
+    "id": 19,
+    "name": "洗顔フォーム",
+    "category": "ビューティー",
+    "price": 2300,
+    "description": "低刺激でやさしい洗顔フォームです。",
+    "image": "p19.svg",
+    "image_url": "http://ec-site/static/img/products/p19.svg"
+  },
+  {
+    "id": 20,
+    "name": "日焼け止め SPF50",
+    "category": "ビューティー",
+    "price": 3000,
+    "description": "さらっとした使用感の日焼け止めです。",
+    "image": "p20.svg",
+    "image_url": "http://ec-site/static/img/products/p20.svg"
+  },
+  {
+    "id": 21,
+    "name": "ヨガマット",
+    "category": "スポーツ/アウトドア",
+    "price": 3900,
+    "description": "滑り止め加工が施されたヨガマットです。",
+    "image": "p21.svg",
+    "image_url": "http://ec-site/static/img/products/p21.svg"
+  },
+  {
+    "id": 22,
+    "name": "折りたたみキャンプチェア",
+    "category": "スポーツ/アウトドア",
+    "price": 5000,
+    "description": "軽量で折りたためるキャンプチェアです。",
+    "image": "p22.svg",
+    "image_url": "http://ec-site/static/img/products/p22.svg"
+  },
+  {
+    "id": 23,
+    "name": "登山用リュック 30L",
+    "category": "スポーツ/アウトドア",
+    "price": 9900,
+    "description": "丈夫で収納力抜群の登山用リュックです。",
+    "image": "p23.svg",
+    "image_url": "http://ec-site/static/img/products/p23.svg"
+  },
+  {
+    "id": 24,
+    "name": "ランニングシューズ",
+    "category": "スポーツ/アウトドア",
+    "price": 11000,
+    "description": "クッション性に優れたランニングシューズです。",
+    "image": "p24.svg",
+    "image_url": "http://ec-site/static/img/products/p24.svg"
+  },
+  {
+    "id": 25,
+    "name": "ステンレスタンブラー 750ml",
+    "category": "スポーツ/アウトドア",
+    "price": 2700,
+    "description": "保温・保冷が長持ちするタンブラーです。",
+    "image": "p25.svg",
+    "image_url": "http://ec-site/static/img/products/p25.svg"
+  },
+  {
+    "id": 26,
+    "name": "ベストセラー小説セット",
+    "category": "本/文具",
+    "price": 3700,
+    "description": "話題のベストセラー小説3冊セットです。",
+    "image": "p26.svg",
+    "image_url": "http://ec-site/static/img/products/p26.svg"
+  },
+  {
+    "id": 27,
+    "name": "ノート3冊セット",
+    "category": "本/文具",
+    "price": 1300,
+    "description": "書き心地の良い無地ノート3冊セットです。",
+    "image": "p27.svg",
+    "image_url": "http://ec-site/static/img/products/p27.svg"
+  },
+  {
+    "id": 28,
+    "name": "万年筆",
+    "category": "本/文具",
+    "price": 5000,
+    "description": "なめらかな書き心地のクラシック万年筆です。",
+    "image": "p28.svg",
+    "image_url": "http://ec-site/static/img/products/p28.svg"
+  },
+  {
+    "id": 29,
+    "name": "ダイアリー2026",
+    "category": "本/文具",
+    "price": 2100,
+    "description": "シンプルなデザインの2026年ダイアリーです。",
+    "image": "p29.svg",
+    "image_url": "http://ec-site/static/img/products/p29.svg"
+  },
+  {
+    "id": 30,
+    "name": "カラー蛍光ペンセット",
+    "category": "本/文具",
+    "price": 1000,
+    "description": "発色の良い蛍光ペン6色セットです。",
+    "image": "p30.svg",
+    "image_url": "http://ec-site/static/img/products/p30.svg"
+  }
+]

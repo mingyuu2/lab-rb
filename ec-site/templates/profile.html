@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}マイページ — Nova Shop{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">マイページ</h1>
+  <p class="mb-6 text-sm text-[#374151]">{{ session.get('email') }} 様、ようこそ。</p>
+{% endblock %}

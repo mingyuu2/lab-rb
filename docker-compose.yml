@@ -1,0 +1,27 @@
+services:
+  ec-site:
+    build: ./ec-site
+    ports:
+      - "8080:80"
+    networks:
+      - external-net
+      - internal-net
+    depends_on:
+      - proxy-server
+
+  proxy-server:
+    build: ./proxy-server
+    networks:
+      internal-net:
+        aliases:
+          - proxy-server.internal
+
+networks:
+  external-net:
+    driver: bridge
+  internal-net:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.28.99.0/24

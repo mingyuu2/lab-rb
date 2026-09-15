@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}ログイン — Nova Shop{% endblock %}
+{% block content %}
+  <div class="card mx-auto max-w-sm p-8">
+    <h1 class="mb-6 text-xl font-semibold">ログイン</h1>
+    {% if error %}
+      <p class="mb-4 text-sm text-red-600">{{ error }}</p>
+    {% endif %}
+    <form method="post" class="space-y-4">
+      <div>
+        <label class="mb-1 block text-sm font-medium">メールアドレス</label>
+        <input type="email" name="email" required class="input-field">
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium">パスワード</label>
+        <input type="password" name="password" required class="input-field">
+      </div>
+      <button type="submit" class="btn-solid w-full">ログイン</button>
+    </form>
+    <p class="mt-4 text-center text-sm text-[#9CA3AF]">
+      アカウントをお持ちでないですか？ <a href="{{ url_for('register') }}" class="text-accent">新規登録</a>
+    </p>
+  </div>
+{% endblock %}

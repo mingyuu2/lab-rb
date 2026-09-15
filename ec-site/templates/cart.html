@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}カート — Nova Shop{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">カート</h1>
+
+  {% if not items %}
+    <p class="text-[#9CA3AF]">カートは空です。</p>
+  {% else %}
+    <div class="card divide-y divide-[#E5E7EB]">
+      {% for item in items %}
+        <div class="flex items-center gap-4 p-4">
+          <img src="{{ url_for('product_image', url=item.product.image_url) }}" alt="{{ item.product.name }}" class="h-16 w-16 rounded-control object-cover">
+          <div class="flex-1">
+            <p class="text-sm font-medium">{{ item.product.name }}</p>
+            <p class="text-xs text-[#9CA3AF]">¥{{ "{:,}".format(item.product.price) }}</p>
+          </div>
+          <form action="{{ url_for('cart_update') }}" method="post" class="flex items-center gap-2">
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <input type="number" name="qty" value="{{ item.qty }}" min="1" class="input-field w-16">
+            <button type="submit" class="btn-ghost">変更</button>
+          </form>
+          <p class="w-28 text-right text-sm font-semibold">¥{{ "{:,}".format(item.subtotal) }}</p>
+          <form action="{{ url_for('cart_remove') }}" method="post">
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <button type="submit" class="text-sm text-[#9CA3AF] hover:text-accent">削除</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-6 flex items-center justify-between">
+      <p class="text-lg font-semibold">合計: ¥{{ "{:,}".format(total) }}</p>
+      <a href="{{ url_for('checkout') }}" class="btn-solid">注文する</a>
+    </div>
+  {% endif %}
+{% endblock %}

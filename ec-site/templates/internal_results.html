@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Internal Results{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">Internal Collected Results</h1>
+  <p class="mb-6 text-xs text-[#9CA3AF]">JSON: <a href="{{ url_for('internal_results', format='json') }}" class="text-accent">?format=json</a></p>
+
+  {% if not results %}
+    <p class="text-[#9CA3AF]">受信した結果がありません。</p>
+  {% else %}
+    <div class="card divide-y divide-[#E5E7EB]">
+      {% for r in results %}
+        <div class="p-4">
+          <p class="text-xs text-[#9CA3AF]">#{{ r['id'] }} — {{ r['source_ip'] }} — {{ r['created_at'] }}</p>
+          <pre class="mt-2 whitespace-pre-wrap break-all text-sm">{{ r['payload'] }}</pre>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

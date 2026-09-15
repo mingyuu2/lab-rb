@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Nova Shop{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="min-h-screen bg-[#FAFAFA] text-[#111827]">
+  <header class="sticky top-0 z-10 border-b border-[#E5E7EB] bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <a href="{{ url_for('index') }}" class="text-lg font-semibold tracking-tight">Nova Shop</a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="{{ url_for('index') }}" class="text-[#374151] hover:text-accent">商品</a>
+        <a href="{{ url_for('cart_view') }}" class="text-[#374151] hover:text-accent">カート</a>
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('profile') }}" class="text-[#374151] hover:text-accent">マイページ</a>
+          <a href="{{ url_for('logout') }}" class="btn-ghost">ログアウト</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="text-[#374151] hover:text-accent">ログイン</a>
+          <a href="{{ url_for('register') }}" class="btn-solid">新規登録</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-6 py-10">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-16 border-t border-[#E5E7EB] py-8 text-center text-xs text-[#9CA3AF]">
+    Nova Shop — セキュリティ教育用隔離環境デモ
+  </footer>
+</body>
+</html>

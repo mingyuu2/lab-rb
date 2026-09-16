@@ -2,7 +2,7 @@ services:
   ec-site:
     build: ./ec-site
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - external-net
       - internal-net
@@ -11,6 +11,10 @@ services:
 
   proxy-server:
     build: ./proxy-server
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "22:22"
     networks:
       internal-net:
         aliases:

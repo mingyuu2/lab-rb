@@ -1,0 +1,10 @@
+Port 22
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitRootLogin no
+
+# Without this, sshd's own hardening (StrictModes) refuses to trust
+# authorized_keys sitting in a group-writable .ssh directory -- which is
+# exactly the loose-permissions misconfiguration this lab demonstrates, so
+# it has to be turned off for that vulnerability to be reachable at all.
+StrictModes no

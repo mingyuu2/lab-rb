@@ -1,0 +1,5 @@
+# Local privilege-escalation vector for the training lab: NOPASSWD sudo on a
+# GTFOBins-listed binary. Kept in its own file so it can be swapped for a
+# different vector (cron job, SUID script, kernel CVE, ...) without touching
+# the rest of the image.
+proxyuser ALL=(ALL) NOPASSWD: /usr/bin/python3

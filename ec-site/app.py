@@ -193,23 +193,46 @@ def checkout():
 
 
 # ---------------------------------------------------------------------------
-# Profile: plain landing page after login (no outbound-fetch feature here).
+# Profile: normal feature, egress-compliant. Outbound fetches for the
+# profile image go through Squid like company policy requires, and Squid's
+# own Via header is passed through untouched -- just using this legitimate
+# feature is enough for an attacker to learn the internal proxy hostname.
 # ---------------------------------------------------------------------------
 
 
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html")
+    return render_template("profile.html", image_url=session.get("profile_image_url"))
+
+
+@app.route("/profile/image-preview", methods=["POST"])
+@login_required
+def profile_image_preview():
+    url = request.form.get("url", "")
+    if not url:
+        return redirect(url_for("profile"))
+
+    try:
+        r = requests.get(url, allow_redirects=True, timeout=3, proxies=SQUID_PROXIES)
+    except requests.exceptions.RequestException as e:
+        return render_template("profile.html", image_url=None, error=str(e))
+
+    session["profile_image_url"] = url
+    # Squid genuinely adds Via for plain HTTP. For HTTPS it can only tunnel
+    # the encrypted CONNECT stream -- it never sees the response to stamp --
+    # so we add the equivalent header ourselves here to keep the leak from
+    # being scheme-dependent.
+    via = r.headers.get("Via") or "1.1 proxy-server.internal (squid/6.14)"
+    body = render_template("profile.html", image_url=url)
+    return Response(body, status=200, headers={"Via": via})
 
 
 # ---------------------------------------------------------------------------
-# Vulnerable path: product image auto-load, routed through Squid but with no
-# destination allowlist -- gopher:// is handled with a raw socket because
-# `requests` has no gopher adapter, so it always bypasses Squid entirely.
-# Squid's own Via header is intentionally passed through to the browser: the
-# same request that can be abused for SSRF is what leaks the internal
-# hostname, since going through the corporate proxy does nothing to stop it.
+# Vulnerable path: product image auto-load fetches the destination directly,
+# bypassing Squid entirely (an outbound-handling inconsistency vs. the
+# profile feature above) -- no destination allowlist either. gopher:// is
+# handled with a raw socket because `requests` has no gopher adapter.
 # ---------------------------------------------------------------------------
 
 
@@ -224,33 +247,24 @@ def product_image():
         return _fetch_gopher(parsed)
 
     try:
-        r = requests.get(url, allow_redirects=True, timeout=3, proxies=SQUID_PROXIES)
+        r = requests.get(url, allow_redirects=True, timeout=3)
     except requests.exceptions.Timeout:
-        # Squid's own connect_timeout is much longer than ours, so an
-        # unreachable (filtered) target makes our client-side timeout fire
-        # first -- Squid never gets the chance to answer at all.
         return Response("connection timeout", status=504)
+    except requests.exceptions.ConnectionError as e:
+        # A refused TCP connect (closed port) and a reset/bad-status-line
+        # from an open-but-non-HTTP service (e.g. Redis) both surface here as
+        # ConnectionError -- inspect the wrapped cause to tell them apart, so
+        # blind port-scan practice still sees three distinct outcomes.
+        if isinstance(e.args[0] if e.args else None, ConnectionRefusedError) or "Connection refused" in str(e):
+            return Response(f"connection refused: {e}", status=502)
+        return Response(f"port open, non-http response: {e}", status=200)
     except requests.exceptions.RequestException as e:
         return Response(f"error: {e}", status=502)
 
-    # Squid always answers within our timeout for reachable hosts, so a
-    # closed vs. open-but-non-HTTP port is distinguished via Squid's own
-    # X-Squid-Error header rather than a raised exception -- these must stay
-    # distinguishable for blind port-scan practice.
-    squid_error = r.headers.get("X-Squid-Error", "")
-    if squid_error.startswith("ERR_CONNECT_FAIL"):
-        return Response(f"connection refused: {squid_error}", status=502)
-    if squid_error:
-        return Response(f"port open, non-http response: {squid_error}", status=200)
-
-    headers = {}
-    if "Via" in r.headers:
-        headers["Via"] = r.headers["Via"]
     return Response(
         r.content,
         status=200,
         content_type=r.headers.get("Content-Type", "application/octet-stream"),
-        headers=headers,
     )
 
 
@@ -318,6 +332,7 @@ def internal_results():
     return render_template("internal_results.html", results=rows)
 
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(host="0.0.0.0", port=80, threaded=True)

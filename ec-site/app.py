@@ -332,6 +332,7 @@ def internal_results():
     return render_template("internal_results.html", results=rows)
 
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(host="0.0.0.0", port=80, threaded=True)

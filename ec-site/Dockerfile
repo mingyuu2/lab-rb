@@ -10,10 +10,16 @@ RUN npx tailwindcss -i ./static/src/input.css -o ./static/css/style.css --minify
 
 # ---- stage 2: runtime ----
 FROM python:3.11-slim AS runtime
+RUN apt-get update && apt-get install -y --no-install-recommends apache2 \
+    && a2enmod proxy proxy_http headers \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 COPY --from=assets /build/static/css/style.css ./static/css/style.css
+COPY apache-ec-site.conf /etc/apache2/sites-available/000-default.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 EXPOSE 80
-CMD ["python", "app.py"]
+ENTRYPOINT ["/entrypoint.sh"]

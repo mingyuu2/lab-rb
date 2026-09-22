@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}注文履歴 — Nova Shop{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">注文履歴</h1>
+
+  {% if orders %}
+    <div class="space-y-6">
+      {% for entry in orders %}
+        <div class="card p-4">
+          <div class="mb-2 flex items-center justify-between text-sm text-[#9CA3AF]">
+            <span>注文番号 #{{ entry.order.id }} — {{ entry.order.created_at }}</span>
+            <span class="font-semibold text-accent">¥{{ "{:,}".format(entry.order.total) }}</span>
+          </div>
+          <p class="mb-2 text-sm text-[#374151]">お届け先: {{ entry.order.recipient_name }}（{{ entry.order.address }}）</p>
+          <div class="divide-y divide-[#E5E7EB] text-sm">
+            {% for item in entry['items'] %}
+              <div class="flex items-center justify-between py-2">
+                <span>{{ item.product_name }} x {{ item.qty }}</span>
+                <span>¥{{ "{:,}".format(item.price * item.qty) }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-sm text-[#9CA3AF]">注文履歴はまだありません。</p>
+  {% endif %}
+{% endblock %}

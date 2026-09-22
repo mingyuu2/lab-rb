@@ -11,15 +11,14 @@ services:
 
   proxy-server:
     build: ./proxy-server
-    cap_add:
-      - NET_ADMIN
     ports:
       - "22:22"
+    cap_add:
+      - NET_ADMIN
     networks:
       internal-net:
         aliases:
           - proxy-server.internal
-      mgmt-net:
 
 networks:
   external-net:
@@ -30,8 +29,3 @@ networks:
     ipam:
       config:
         - subnet: 172.28.99.0/24
-  mgmt-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.98.0/24

@@ -11,6 +11,7 @@ from flask import (
     jsonify,
     redirect,
     render_template,
+    render_template_string,
     request,
     session,
     url_for,
@@ -67,6 +68,7 @@ def register():
     error = None
     if request.method == "POST":
         email = request.form.get("email", "").strip()
+        nickname = request.form.get("nickname", "").strip()
         password = request.form.get("password", "")
         if not email or not password:
             error = "メールアドレスとパスワードを入力してください。"
@@ -77,8 +79,8 @@ def register():
                 error = "すでに登録されているメールアドレスです。"
             else:
                 db.execute(
-                    "INSERT INTO users (email, password_hash) VALUES (?, ?)",
-                    (email, generate_password_hash(password)),
+                    "INSERT INTO users (email, password_hash, nickname) VALUES (?, ?, ?)",
+                    (email, generate_password_hash(password), nickname or None),
                 )
                 db.commit()
                 return redirect(url_for("login"))
@@ -96,6 +98,7 @@ def login():
         if user and check_password_hash(user["password_hash"], password):
             session["user_id"] = user["id"]
             session["email"] = user["email"]
+            session["nickname"] = user["nickname"]
             return redirect(url_for("index"))
         error = "メールアドレスまたはパスワードが正しくありません。"
     return render_template("login.html", error=error)
@@ -128,7 +131,57 @@ def product_detail(product_id):
     product = get_product(product_id)
     if not product:
         return "商品が見つかりません。", 404
-    return render_template("product_detail.html", product=product)
+    db = get_db()
+    rows = db.execute(
+        "SELECT reviews.id, reviews.content, reviews.created_at, reviews.user_id, "
+        "COALESCE(users.nickname, users.email) AS author "
+        "FROM reviews JOIN users ON users.id = reviews.user_id "
+        "WHERE reviews.product_id = ? ORDER BY reviews.id DESC",
+        (product_id,),
+    ).fetchall()
+    # Reviews support inline "template tags" (e.g. referencing the product
+    # name) so they're rendered through Jinja2 instead of being escaped
+    # as plain text -- reviewer-controlled content ends up interpreted as
+    # template code (SSTI), not just displayed.
+    reviews = [
+        {
+            "id": row["id"],
+            "author": row["author"],
+            "created_at": row["created_at"],
+            "content": render_template_string(row["content"], product=product),
+            "is_own": row["user_id"] == session.get("user_id"),
+        }
+        for row in rows
+    ]
+    return render_template("product_detail.html", product=product, reviews=reviews)
+
+
+@app.route("/product/<int:product_id>/review", methods=["POST"])
+@login_required
+def product_review(product_id):
+    if not get_product(product_id):
+        return "商品が見つかりません。", 404
+    content = request.form.get("content", "").strip()
+    if content:
+        db = get_db()
+        db.execute(
+            "INSERT INTO reviews (product_id, user_id, content) VALUES (?, ?, ?)",
+            (product_id, session["user_id"], content),
+        )
+        db.commit()
+    return redirect(url_for("product_detail", product_id=product_id))
+
+
+@app.route("/product/<int:product_id>/review/<int:review_id>/delete", methods=["POST"])
+@login_required
+def review_delete(product_id, review_id):
+    db = get_db()
+    db.execute(
+        "DELETE FROM reviews WHERE id = ? AND product_id = ? AND user_id = ?",
+        (review_id, product_id, session["user_id"]),
+    )
+    db.commit()
+    return redirect(url_for("product_detail", product_id=product_id))
 
 
 # ---------------------------------------------------------------------------
@@ -180,6 +233,7 @@ def cart_remove():
 
 
 @app.route("/checkout", methods=["GET", "POST"])
+@login_required
 def checkout():
     items, total = _cart_items()
     if not items:
@@ -187,9 +241,38 @@ def checkout():
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         address = request.form.get("address", "").strip()
+        db = get_db()
+        cur = db.execute(
+            "INSERT INTO orders (user_id, recipient_name, address, total) VALUES (?, ?, ?, ?)",
+            (session["user_id"], name, address, total),
+        )
+        order_id = cur.lastrowid
+        for item in items:
+            db.execute(
+                "INSERT INTO order_items (order_id, product_name, qty, price) VALUES (?, ?, ?, ?)",
+                (order_id, item["product"]["name"], item["qty"], item["product"]["price"]),
+            )
+        db.commit()
         session["cart"] = {}
         return render_template("order_complete.html", name=name, address=address)
     return render_template("checkout.html", items=items, total=total)
+
+
+@app.route("/orders")
+@login_required
+def order_history():
+    db = get_db()
+    orders = db.execute(
+        "SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC",
+        (session["user_id"],),
+    ).fetchall()
+    orders_with_items = []
+    for order in orders:
+        items = db.execute(
+            "SELECT * FROM order_items WHERE order_id = ?", (order["id"],)
+        ).fetchall()
+        orders_with_items.append({"order": order, "items": items})
+    return render_template("orders.html", orders=orders_with_items)
 
 
 # ---------------------------------------------------------------------------
@@ -203,7 +286,35 @@ def checkout():
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html", image_url=session.get("profile_image_url"))
+    return render_template(
+        "profile.html",
+        display_name=session.get("nickname") or session.get("email"),
+        image_url=session.get("profile_image_url"),
+    )
+
+
+@app.route("/profile/edit", methods=["GET", "POST"])
+@login_required
+def profile_edit():
+    error = None
+    if request.method == "POST":
+        nickname = request.form.get("nickname", "").strip()
+        password = request.form.get("password", "")
+        db = get_db()
+        if password:
+            db.execute(
+                "UPDATE users SET nickname = ?, password_hash = ? WHERE id = ?",
+                (nickname or None, generate_password_hash(password), session["user_id"]),
+            )
+        else:
+            db.execute(
+                "UPDATE users SET nickname = ? WHERE id = ?",
+                (nickname or None, session["user_id"]),
+            )
+        db.commit()
+        session["nickname"] = nickname or None
+        return redirect(url_for("profile"))
+    return render_template("profile_edit.html", nickname=session.get("nickname"), error=error)
 
 
 @app.route("/profile/image-preview", methods=["POST"])
@@ -213,10 +324,11 @@ def profile_image_preview():
     if not url:
         return redirect(url_for("profile"))
 
+    display_name = session.get("nickname") or session.get("email")
     try:
         r = requests.get(url, allow_redirects=True, timeout=3, proxies=SQUID_PROXIES)
     except requests.exceptions.RequestException as e:
-        return render_template("profile.html", image_url=None, error=str(e))
+        return render_template("profile.html", display_name=display_name, image_url=None, error=str(e))
 
     session["profile_image_url"] = url
     # Squid genuinely adds Via for plain HTTP. For HTTPS it can only tunnel
@@ -224,7 +336,7 @@ def profile_image_preview():
     # so we add the equivalent header ourselves here to keep the leak from
     # being scheme-dependent.
     via = r.headers.get("Via") or "1.1 proxy-server.internal (squid/6.14)"
-    body = render_template("profile.html", image_url=url)
+    body = render_template("profile.html", display_name=display_name, image_url=url)
     return Response(body, status=200, headers={"Via": via})
 
 

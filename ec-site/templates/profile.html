@@ -2,7 +2,12 @@
 {% block title %}マイページ — Nova Shop{% endblock %}
 {% block content %}
   <h1 class="mb-6 text-2xl font-semibold">マイページ</h1>
-  <p class="mb-6 text-sm text-[#374151]">{{ session.get('email') }} 様、ようこそ。</p>
+  <p class="mb-6 text-sm text-[#374151]">{{ display_name }} 様、ようこそ。</p>
+
+  <div class="mb-6 flex gap-4 text-sm">
+    <a href="{{ url_for('profile_edit') }}" class="text-accent hover:underline">会員情報の変更</a>
+    <a href="{{ url_for('order_history') }}" class="text-accent hover:underline">注文履歴</a>
+  </div>
 
   <div class="card max-w-md p-6">
     <h2 class="mb-4 text-sm font-semibold text-[#111827]">プロフィール画像URLの登録</h2>

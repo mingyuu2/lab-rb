@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}会員情報の変更 — Nova Shop{% endblock %}
+{% block content %}
+  <h1 class="mb-6 text-2xl font-semibold">会員情報の変更</h1>
+  {% if error %}
+    <p class="mb-4 text-sm text-red-600">{{ error }}</p>
+  {% endif %}
+  <form method="post" class="card max-w-md space-y-4 p-6">
+    <div>
+      <label class="mb-1 block text-sm font-medium">ニックネーム</label>
+      <input type="text" name="nickname" value="{{ nickname or '' }}" maxlength="30" class="input-field" placeholder="ニックネーム">
+    </div>
+    <div>
+      <label class="mb-1 block text-sm font-medium">新しいパスワード（変更する場合のみ）</label>
+      <input type="password" name="password" class="input-field" placeholder="変更しない場合は空欄">
+    </div>
+    <button type="submit" class="btn-solid w-full">保存する</button>
+  </form>
+{% endblock %}

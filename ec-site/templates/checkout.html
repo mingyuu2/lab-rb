@@ -1,32 +1,36 @@
 {% extends "base.html" %}
+{% from "components.html" import heading, steps %}
 {% block title %}注文手続き — Nova Shop{% endblock %}
 {% block content %}
-  <h1 class="mb-6 text-2xl font-semibold">注文手続き</h1>
-
-  <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
-    <div class="card divide-y divide-[#E5E7EB]">
-      {% for item in items %}
-        <div class="flex items-center justify-between p-4 text-sm">
-          <span>{{ item.product.name }} x {{ item.qty }}</span>
-          <span class="font-medium">¥{{ "{:,}".format(item.subtotal) }}</span>
-        </div>
-      {% endfor %}
-      <div class="flex items-center justify-between p-4 text-sm font-semibold">
-        <span>合計</span>
-        <span class="text-accent">¥{{ "{:,}".format(total) }}</span>
-      </div>
-    </div>
-
-    <form action="{{ url_for('checkout') }}" method="post" class="card space-y-4 p-6">
-      <div>
-        <label class="mb-1 block text-sm font-medium">お届け先のお名前</label>
-        <input type="text" name="name" required class="input-field">
-      </div>
-      <div>
-        <label class="mb-1 block text-sm font-medium">お届け先住所</label>
-        <input type="text" name="address" required class="input-field">
-      </div>
-      <button type="submit" class="btn-solid w-full">注文を確定する</button>
-    </form>
-  </div>
+  {{ heading('ALMOST YOURS', '注文手続き', 'お届け先と、ご注文内容をご確認ください。') }}{{ steps(2) }}
+  <div class="checkout-layout">
+<form action="{{ url_for('checkout') }}" method="post" class="card form-panel">
+<h2>お届け先</h2>
+<div class="form-stack">
+<div>
+<label for="recipient-name" class="field-label">お届け先のお名前</label>
+<input id="recipient-name" type="text" name="name" required autocomplete="name" class="input-field" placeholder="山田 花子">
+</div>
+<div>
+<label for="recipient-address" class="field-label">お届け先住所</label>
+<input id="recipient-address" type="text" name="address" required autocomplete="street-address" class="input-field" placeholder="都道府県・市区町村・番地・建物名">
+</div>
+<button type="submit" class="btn-solid w-full">注文を確定する {{ icon('arrow') }}</button>
+</div>
+</form>
+<aside class="order-summary">
+<p class="eyebrow mb-3">ORDER SUMMARY</p>
+<h2>ご注文内容</h2>
+{% for item in items %}
+<div class="summary-line">
+<span>{{ item.product.name }} × {{ item.qty }}</span>
+<span class="whitespace-nowrap">¥{{ "{:,}".format(item.subtotal) }}</span>
+</div>
+{% endfor %}
+<div class="summary-line summary-total">
+<span>合計</span><strong>¥{{ "{:,}".format(total) }}</strong>
+</div>
+<a href="{{ url_for('cart_view') }}" class="text-link">カートを編集する {{ icon('arrow') }}</a>
+</aside>
+</div>
 {% endblock %}

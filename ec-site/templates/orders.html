@@ -1,29 +1,32 @@
 {% extends "base.html" %}
+{% from "components.html" import heading %}
 {% block title %}注文履歴 — Nova Shop{% endblock %}
 {% block content %}
-  <h1 class="mb-6 text-2xl font-semibold">注文履歴</h1>
-
-  {% if orders %}
-    <div class="space-y-6">
-      {% for entry in orders %}
-        <div class="card p-4">
-          <div class="mb-2 flex items-center justify-between text-sm text-[#9CA3AF]">
-            <span>注文番号 #{{ entry.order.id }} — {{ entry.order.created_at }}</span>
-            <span class="font-semibold text-accent">¥{{ "{:,}".format(entry.order.total) }}</span>
-          </div>
-          <p class="mb-2 text-sm text-[#374151]">お届け先: {{ entry.order.recipient_name }}（{{ entry.order.address }}）</p>
-          <div class="divide-y divide-[#E5E7EB] text-sm">
-            {% for item in entry['items'] %}
-              <div class="flex items-center justify-between py-2">
-                <span>{{ item.product_name }} x {{ item.qty }}</span>
-                <span>¥{{ "{:,}".format(item.price * item.qty) }}</span>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="text-sm text-[#9CA3AF]">注文履歴はまだありません。</p>
-  {% endif %}
+  {{ heading('YOUR ORDERS', '注文履歴') }}<div class="account-layout">
+{% include "account_nav.html" %}
+<div class="account-content">
+{% if orders %}{% for entry in orders %}
+<article class="card order-card">
+<div class="order-meta">
+<div>
+<h2>注文番号 #{{ entry.order.id }}</h2><time>{{ entry.order.created_at }}</time>
+</div><strong>¥{{ "{:,}".format(entry.order.total) }}</strong>
+</div>
+<p class="order-address">お届け先: {{ entry.order.recipient_name }}（{{ entry.order.address }}）</p>
+<div class="divide-y divide-[#E5E7EB]">
+{% for item in entry['items'] %}
+<div class="summary-line">
+<span>{{ item.product_name }} × {{ item.qty }}</span>
+<span class="whitespace-nowrap">¥{{ "{:,}".format(item.price * item.qty) }}</span>
+</div>
+{% endfor %}</div>
+</article>
+{% endfor %}{% else %}
+<div class="empty-state">
+<div class="empty-symbol">{{ icon('bag') }}</div>
+<p>注文履歴はまだありません。</p>
+<a href="{{ url_for('index') }}" class="btn-solid">商品を見つける {{ icon('arrow') }}</a>
+</div>
+{% endif %}</div>
+</div>
 {% endblock %}

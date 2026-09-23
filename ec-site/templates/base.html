@@ -1,35 +1,54 @@
+{% from "components.html" import icon %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f5f0">
   <title>{% block title %}Nova Shop{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="min-h-screen bg-[#FAFAFA] text-[#111827]">
-  <header class="sticky top-0 z-10 border-b border-[#E5E7EB] bg-white/90 backdrop-blur">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-      <a href="{{ url_for('index') }}" class="text-lg font-semibold tracking-tight">Nova Shop</a>
-      <nav class="flex items-center gap-4 text-sm">
-        <a href="{{ url_for('index') }}" class="text-[#374151] hover:text-accent">商品</a>
-        <a href="{{ url_for('cart_view') }}" class="text-[#374151] hover:text-accent">カート</a>
+<body>
+  <a href="#main" class="skip-link">コンテンツへスキップ</a>
+  <div class="announcement">日々の暮らしに、ちょっといいもの。<span>GOOD THINGS, EVERY DAY.</span>
+</div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a href="{{ url_for('index') }}" class="brand" aria-label="Nova Shop ホーム">nova<span class="brand-dot">✳</span>
+<span class="brand-small">SHOP</span>
+</a>
+      <nav class="main-nav" aria-label="メインナビゲーション">
+        <a href="{{ url_for('index') }}" class="{{ 'is-current' if request.endpoint in ['index', 'product_detail'] else '' }}">商品<span class="nav-english">Collection</span>
+</a>
+        <a href="{{ url_for('cart_view') }}" class="cart-link {{ 'is-current' if request.endpoint == 'cart_view' else '' }}">{{ icon('bag') }} カート<span class="cart-count">{{ session.get('cart', {}).values() | sum }}</span>
+</a>
         {% if session.get('user_id') %}
-          <a href="{{ url_for('profile') }}" class="text-[#374151] hover:text-accent">マイページ</a>
-          <a href="{{ url_for('logout') }}" class="btn-ghost">ログアウト</a>
+          <a href="{{ url_for('profile') }}" class="{{ 'is-current' if request.endpoint in ['profile', 'profile_edit', 'profile_image_preview', 'order_history'] else '' }}">{{ icon('user') }}<span>マイページ</span>
+</a>
+          <a href="{{ url_for('logout') }}" class="nav-account">ログアウト {{ icon('arrow') }}</a>
         {% else %}
-          <a href="{{ url_for('login') }}" class="text-[#374151] hover:text-accent">ログイン</a>
-          <a href="{{ url_for('register') }}" class="btn-solid">新規登録</a>
+          <a href="{{ url_for('login') }}">{{ icon('user') }}<span>ログイン</span>
+</a>
+          <a href="{{ url_for('register') }}" class="nav-account">新規登録 {{ icon('arrow') }}</a>
         {% endif %}
       </nav>
     </div>
   </header>
-
-  <main class="mx-auto max-w-6xl px-6 py-10">
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer class="mt-16 border-t border-[#E5E7EB] py-8 text-center text-xs text-[#9CA3AF]">
-    Nova Shop — セキュリティ教育用隔離環境デモ
+  <main id="main" class="shell main-content" tabindex="-1">{% block content %}{% endblock %}</main>
+  <footer class="site-footer">
+    <div class="shell footer-top">
+<div>
+<a href="{{ url_for('index') }}" class="brand">nova<span class="brand-dot">✳</span>
+</a>
+<p>何気ない毎日に、お気に入りを。</p>
+</div>
+<a href="{{ url_for('index') }}">コレクションを見る {{ icon('arrow') }}</a>
+</div>
+    <div class="shell footer-bottom">
+<span>© Nova Shop</span>
+<span>セキュリティ教育用隔離環境デモ</span>
+<span>CURATED FOR YOUR EVERYDAY.</span>
+</div>
   </footer>
 </body>
 </html>

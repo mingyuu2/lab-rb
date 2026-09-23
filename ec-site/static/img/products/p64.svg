@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title"><title id="title">ファブリック収納ボックス — illustration</title><defs>
+<linearGradient id="cream" x2="1" y2="1"><stop stop-color="#fcfcf3"/><stop offset="1" stop-color="#dedfd1"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#c2c8b9"/><stop offset=".5" stop-color="#8d9880"/><stop offset="1" stop-color="#adb79f"/></linearGradient>
+<linearGradient id="sage" x2="1" y2=".6"><stop stop-color="#b8c4a2"/><stop offset="1" stop-color="#7a8b64"/></linearGradient>
+<linearGradient id="dark" x2="1" y2="1"><stop stop-color="#78846c"/><stop offset="1" stop-color="#3d4b35"/></linearGradient>
+<pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#647159"/><circle cx="3" cy="3" r="1.1" fill="#354530"/></pattern>
+<filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feDropShadow dx="5" dy="14" stdDeviation="10" flood-color="#394331" flood-opacity=".15"/></filter>
+</defs><rect width="480" height="480" fill="#e8e5da"/><ellipse cx="243" cy="389" rx="121" ry="13" fill="#384930" opacity=".06"/><g filter="url(#shadow)"><g transform="rotate(0 240 240)"><rect x="104" y="259" width="240" height="96" rx="7" fill="#acb498"/><path d="M95 261h258v16H95Z" fill="#879775"/><rect x="139" y="170" width="194" height="90" rx="7" fill="#d3d2ba"/><path d="M130 169h212v16H130Z" fill="#b8b89c"/><rect x="178" y="108" width="131" height="60" rx="7" fill="#e7dfca"/><path d="M171 104h146v15H171Z" fill="#d0c2a4"/><path d="M204 305h43m-22-89h32m-24-77h22" stroke="#6e7962" stroke-width="6" stroke-linecap="round"/></g></g></svg>

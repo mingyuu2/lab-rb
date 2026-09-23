@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title"><title id="title">ポータブルSSD 1TB — illustration</title><defs>
+<linearGradient id="cream" x2="1" y2="1"><stop stop-color="#fcfcf3"/><stop offset="1" stop-color="#dedfd1"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#c2c8b9"/><stop offset=".5" stop-color="#8d9880"/><stop offset="1" stop-color="#adb79f"/></linearGradient>
+<linearGradient id="sage" x2="1" y2=".6"><stop stop-color="#b8c4a2"/><stop offset="1" stop-color="#7a8b64"/></linearGradient>
+<linearGradient id="dark" x2="1" y2="1"><stop stop-color="#78846c"/><stop offset="1" stop-color="#3d4b35"/></linearGradient>
+<pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#647159"/><circle cx="3" cy="3" r="1.1" fill="#354530"/></pattern>
+<filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feDropShadow dx="5" dy="14" stdDeviation="10" flood-color="#394331" flood-opacity=".15"/></filter>
+</defs><rect width="480" height="480" fill="#e6e9e2"/><ellipse cx="243" cy="389" rx="121" ry="13" fill="#384930" opacity=".06"/><g filter="url(#shadow)"><g transform="rotate(-5 240 240)"><g transform="rotate(-18 240 240)"><rect x="148" y="156" width="188" height="167" rx="22" fill="url(#dark)"/><rect x="171" y="175" width="142" height="127" rx="12" fill="#768768"/><text x="242" y="235" text-anchor="middle" font-family="Arial" font-size="23" fill="#e6edd9">1 TB</text><circle cx="242" cy="278" r="3" fill="#d5ef83"/><path d="M240 156v-33q0-23 26-23h43" fill="none" stroke="#576b4d" stroke-width="9"/></g></g></g></svg>

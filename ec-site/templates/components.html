@@ -1,0 +1,25 @@
+{% macro icon(name) -%}
+<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{% if name == 'search' %}<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>{% elif name == 'bag' %}<path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>{% elif name == 'user' %}<circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>{% elif name == 'check' %}<path d="m5 12 4 4L19 6"/>
+{% else %}<path d="M5 12h14m-6-6 6 6-6 6"/>
+{% endif %}
+</svg>
+{%- endmacro %}
+{% macro heading(eyebrow, title, description='') -%}
+<div class="page-heading">
+<p class="eyebrow">{{ eyebrow }}</p>
+<h1>{{ title }}</h1>
+{% if description %}
+<p class="muted">{{ description }}</p>
+{% endif %}</div>
+{%- endmacro %}
+{% macro steps(active) -%}
+<ol class="checkout-steps" aria-label="注文のステップ">
+{% for label in ['カート', '注文手続き', '注文完了'] %}<li class="{{ 'active' if loop.index == active else '' }}" {% if loop.index == active %}aria-current="step"{% endif %}>
+<span>0{{ loop.index }}</span>{{ label }}</li>
+{% endfor %}</ol>
+{%- endmacro %}
+
+{% macro stars(rating) -%}
+<span class="stars" role="img" aria-label="5点中{{ '%.1f' | format(rating) }}点"><span aria-hidden="true">★★★★★</span><span class="stars-fill" style="width: {{ rating * 20 }}%" aria-hidden="true">★★★★★</span></span>
+{%- endmacro %}

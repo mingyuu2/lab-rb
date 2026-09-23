@@ -22,6 +22,17 @@ def close_db(e=None):
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
-    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
-    conn.commit()
-    conn.close()
+    try:
+        with conn:
+            conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+            # Serialize the migration when multiple workers start together.
+            # Existing reviews remain unrated; do not invent historical scores.
+            conn.execute("BEGIN IMMEDIATE")
+            columns = {row[1] for row in conn.execute("PRAGMA table_info(reviews)")}
+            if "rating" not in columns:
+                conn.execute(
+                    "ALTER TABLE reviews ADD COLUMN rating INTEGER "
+                    "CHECK (rating BETWEEN 1 AND 5)"
+                )
+    finally:
+        conn.close()

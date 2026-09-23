@@ -92,7 +92,7 @@ proxy-server의 SSH(22)가 host에 발행되어 있어 별도 컨테이너 진�
 
 | 컨테이너 | 역할 |
 |---|---|
-| `ec-site` | Flask 기반 쇼핑몰(일본어 UI, 엔화(¥) 표시). 회원가입/로그인, 상품 목록·카테고리(6개, 약 30개 상품), 장바구니, 간이 결제, 그리고 아래 취약점들을 포함 |
+| `ec-site` | Flask 기반 쇼핑몰(일본어 UI, 엔화(¥) 표시). 회원가입/로그인, 상품 검색·카테고리(6개, 100개 상품), 장바구니, 간이 결제, 리뷰·별점(1~5점), 그리고 아래 취약점들을 포함 |
 | `proxy-server` | Ubuntu 기반. Squid(정상 egress 프록시) + Redis(미인증, 비-root 계정으로 실행) + OpenSSH 배스천(`proxyuser`) + iptables(mgmt-net 소스에서 22번 외 전부 차단) |
 | `attacker` | curl/openssh-client/python3/redis-tools를 담은 공격자 시점 컨테이너. external-net과 mgmt-net에만 연결됨 |
 
@@ -245,3 +245,17 @@ python3 exploit.py
   알려주는 오라클로 쓸 수 있습니다 — 공격자가 대상 서버의 계정 체계를 사전에 알 필요가 없습니다.
 - proxy-server의 SSH(22)를 host에도 그대로 발행했으므로, macOS의 원격 로그인(시스템 설정 →
   일반 → 공유 → 원격 로그인)이 켜져 있으면 포트 충돌이 납니다. 랩을 쓰는 동안은 꺼두세요.
+
+## 쇼핑몰 기능 검증
+
+상품 검색은 상품명·설명·카테고리를 대상으로 하며, 공백으로 구분한 키워드와 카테고리 필터를 함께
+적용할 수 있습니다. 영문 대소문자와 전각·반각 차이는 정규화합니다. 리뷰 별점은 선택 사항이며,
+평균에는 별점이 있는 리뷰만 포함됩니다. 기존 DB는 앱 시작 시 `rating` 열을 자동 추가하고,
+기존 리뷰와 별점 없는 리뷰 요청은 그대로 유지합니다.
+
+```bash
+docker compose build ec-site
+docker compose run --rm --no-deps --entrypoint python ec-site -m unittest discover -s tests -v
+```
+
+테스트는 임시 DB에서 실행되며, 검색·별점·기존 DB 전환·100개 상품의 이미지와 상세 화면·신규 상품 주문을 검증합니다.

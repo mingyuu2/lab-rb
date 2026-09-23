@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title"><title id="title">ウッドデスクオーガナイザー — illustration</title><defs>
+<linearGradient id="cream" x2="1" y2="1"><stop stop-color="#fcfcf3"/><stop offset="1" stop-color="#dedfd1"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#c2c8b9"/><stop offset=".5" stop-color="#8d9880"/><stop offset="1" stop-color="#adb79f"/></linearGradient>
+<linearGradient id="sage" x2="1" y2=".6"><stop stop-color="#b8c4a2"/><stop offset="1" stop-color="#7a8b64"/></linearGradient>
+<linearGradient id="dark" x2="1" y2="1"><stop stop-color="#78846c"/><stop offset="1" stop-color="#3d4b35"/></linearGradient>
+<pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#647159"/><circle cx="3" cy="3" r="1.1" fill="#354530"/></pattern>
+<filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feDropShadow dx="5" dy="14" stdDeviation="10" flood-color="#394331" flood-opacity=".15"/></filter>
+</defs><rect width="480" height="480" fill="#e7e5dc"/><ellipse cx="243" cy="389" rx="121" ry="13" fill="#384930" opacity=".06"/><g filter="url(#shadow)"><g transform="rotate(0 240 240)"><path d="m104 232 109-27 169 38v111l-113 27-165-41Z" fill="#b2986f"/><path d="m104 232 165 42 113-31-169-38Z" fill="#d0b78e"/><path d="m129 234 86-19 72 16-86 19Z" fill="#8f7956"/><path d="m229 254 87-19 42 9-87 19Z" fill="#8f7956"/><path d="m166 242-10-101m35 104 15-112m78 123 16-87" stroke="#738b60" stroke-width="11"/></g></g></svg>

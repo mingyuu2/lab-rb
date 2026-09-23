@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title"><title id="title">コンパクトワイヤレスキーボード — illustration</title><defs>
+<linearGradient id="cream" x2="1" y2="1"><stop stop-color="#fcfcf3"/><stop offset="1" stop-color="#dedfd1"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#c2c8b9"/><stop offset=".5" stop-color="#8d9880"/><stop offset="1" stop-color="#adb79f"/></linearGradient>
+<linearGradient id="sage" x2="1" y2=".6"><stop stop-color="#b8c4a2"/><stop offset="1" stop-color="#7a8b64"/></linearGradient>
+<linearGradient id="dark" x2="1" y2="1"><stop stop-color="#78846c"/><stop offset="1" stop-color="#3d4b35"/></linearGradient>
+<pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#647159"/><circle cx="3" cy="3" r="1.1" fill="#354530"/></pattern>
+<filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feDropShadow dx="5" dy="14" stdDeviation="10" flood-color="#394331" flood-opacity=".15"/></filter>
+</defs><rect width="480" height="480" fill="#e6e9e2"/><ellipse cx="243" cy="389" rx="121" ry="13" fill="#384930" opacity=".06"/><g filter="url(#shadow)"><g transform="rotate(5 240 240)"><g transform="rotate(-9 240 240)"><rect x="80" y="170" width="320" height="154" rx="14" fill="url(#cream)"/><g fill="#b1bba5"><rect x="100" y="191" width="280" height="23" rx="4"/><rect x="100" y="226" width="280" height="23" rx="4"/><rect x="100" y="261" width="280" height="23" rx="4"/></g><path d="M124 187v100m31-100v100m31-100v100m31-100v100m31-100v100m31-100v100m31-100v100m31-100v100m31-100v100" stroke="#f0f0e6" stroke-width="7"/><rect x="160" y="295" width="147" height="12" rx="4" fill="#8a9d73"/></g></g></g></svg>

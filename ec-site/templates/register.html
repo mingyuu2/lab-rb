@@ -1,28 +1,40 @@
 {% extends "base.html" %}
+{% from "components.html" import heading %}
 {% block title %}新規登録 — Nova Shop{% endblock %}
 {% block content %}
-  <div class="card mx-auto max-w-sm p-8">
-    <h1 class="mb-6 text-xl font-semibold">新規登録</h1>
+  <div class="auth-layout">
+<aside class="auth-intro">
+<div>
+<p class="eyebrow">A LITTLE MORE NOVA</p>
+<h2>好きなものと、<br>暮らそう。</h2>
+<p class="muted">あなたらしい毎日の、お気に入りを。</p>
+</div>
+<span class="auth-star" aria-hidden="true">✳</span>
+<p class="eyebrow">GOOD THINGS, EVERY DAY.</p>
+</aside>
+<div class="auth-form">
+    {{ heading("MAKE YOURSELF AT HOME", "新規登録") }}
     {% if error %}
-      <p class="mb-4 text-sm text-red-600">{{ error }}</p>
+      <p class="form-error" role="alert">{{ error }}</p>
     {% endif %}
-    <form method="post" class="space-y-4">
+    <form method="post" class="form-stack">
       <div>
-        <label class="mb-1 block text-sm font-medium">メールアドレス</label>
-        <input type="email" name="email" required class="input-field">
+        <label for="email" class="field-label">メールアドレス</label>
+        <input type="email" id="email" name="email" autocomplete="email" required class="input-field">
       </div>
       <div>
-        <label class="mb-1 block text-sm font-medium">ニックネーム</label>
-        <input type="text" name="nickname" maxlength="30" class="input-field" placeholder="ニックネーム">
+        <label for="nickname" class="field-label">ニックネーム</label>
+        <input type="text" id="nickname" name="nickname" autocomplete="nickname" maxlength="30" class="input-field" placeholder="ニックネーム">
       </div>
       <div>
-        <label class="mb-1 block text-sm font-medium">パスワード</label>
-        <input type="password" name="password" required class="input-field">
+        <label for="password" class="field-label">パスワード</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" required class="input-field">
       </div>
       <button type="submit" class="btn-solid w-full">新規登録</button>
     </form>
-    <p class="mt-4 text-center text-sm text-[#9CA3AF]">
+    <p class="auth-switch">
       すでにアカウントをお持ちですか？ <a href="{{ url_for('login') }}" class="text-accent">ログイン</a>
     </p>
   </div>
+</div>
 {% endblock %}

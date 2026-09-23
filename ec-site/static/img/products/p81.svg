@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title"><title id="title">トレイルウォーキングシューズ — illustration</title><defs>
+<linearGradient id="cream" x2="1" y2="1"><stop stop-color="#fcfcf3"/><stop offset="1" stop-color="#dedfd1"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#c2c8b9"/><stop offset=".5" stop-color="#8d9880"/><stop offset="1" stop-color="#adb79f"/></linearGradient>
+<linearGradient id="sage" x2="1" y2=".6"><stop stop-color="#b8c4a2"/><stop offset="1" stop-color="#7a8b64"/></linearGradient>
+<linearGradient id="dark" x2="1" y2="1"><stop stop-color="#78846c"/><stop offset="1" stop-color="#3d4b35"/></linearGradient>
+<pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#647159"/><circle cx="3" cy="3" r="1.1" fill="#354530"/></pattern>
+<filter id="shadow" x="-.5" y="-.5" width="2" height="2"><feDropShadow dx="5" dy="14" stdDeviation="10" flood-color="#394331" flood-opacity=".15"/></filter>
+</defs><rect width="480" height="480" fill="#e1e7db"/><ellipse cx="243" cy="389" rx="121" ry="13" fill="#384930" opacity=".06"/><g filter="url(#shadow)"><g transform="rotate(-5 240 240)"><path d="m107 231 38-52 109 37 44 55 59 23q24 12 21 42H101q-5-52 6-105Z" fill="#9aa889"/><path d="m113 292 60-30 43 34 42-12 39 29 57-8" fill="none" stroke="#d6dfc4" stroke-width="15"/><path d="M101 326h277v20H101Z" fill="#ebe9d9"/><path d="m183 223 65 14m-54 3 65 13m-51 2 65 14" stroke="#e2e7d5" stroke-width="5"/></g></g></svg>

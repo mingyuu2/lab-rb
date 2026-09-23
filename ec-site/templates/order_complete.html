@@ -1,10 +1,18 @@
 {% extends "base.html" %}
+{% from "components.html" import steps %}
 {% block title %}注文完了 — Nova Shop{% endblock %}
 {% block content %}
-  <div class="card mx-auto max-w-md p-10 text-center">
-    <p class="text-lg font-semibold text-accent">ご注文が完了しました。</p>
-    <p class="mt-4 text-sm text-[#374151]">お届け先: {{ name }}</p>
-    <p class="text-sm text-[#374151]">お届け先住所: {{ address }}</p>
-    <a href="{{ url_for('index') }}" class="btn-solid mt-8 inline-flex">買い物を続ける</a>
-  </div>
+  {{ steps(3) }}<div class="card success-panel">
+<div class="success-icon">{{ icon('check') }}</div>
+<p class="eyebrow">THANK YOU FOR YOUR ORDER</p>
+<h1>ご注文が完了しました。</h1>
+<div class="success-details">
+<p>お届け先: {{ name }}</p>
+<p>お届け先住所: {{ address }}</p>
+</div>
+<div class="success-actions">
+<a href="{{ url_for('index') }}" class="btn-solid">買い物を続ける {{ icon('arrow') }}</a>
+<a href="{{ url_for('order_history') }}" class="btn-ghost">注文履歴を見る</a>
+</div>
+</div>
 {% endblock %}

@@ -1,36 +1,58 @@
 {% extends "base.html" %}
+{% from "components.html" import heading, steps %}
 {% block title %}カート — Nova Shop{% endblock %}
 {% block content %}
-  <h1 class="mb-6 text-2xl font-semibold">カート</h1>
-
+  {{ heading('YOUR SELECTION', 'カート', 'お気に入りを、あなたの暮らしに。') }}{{ steps(1) }}
   {% if not items %}
-    <p class="text-[#9CA3AF]">カートは空です。</p>
+<div class="empty-state">
+<div class="empty-symbol">{{ icon('bag') }}</div>
+<p>カートは空です。</p>
+<a href="{{ url_for('index') }}" class="btn-solid">商品を見つける {{ icon('arrow') }}</a>
+</div>
   {% else %}
-    <div class="card divide-y divide-[#E5E7EB]">
-      {% for item in items %}
-        <div class="flex items-center gap-4 p-4">
-          <img src="{{ url_for('product_image', url=item.product.image_url) }}" alt="{{ item.product.name }}" class="h-16 w-16 rounded-control object-cover">
-          <div class="flex-1">
-            <p class="text-sm font-medium">{{ item.product.name }}</p>
-            <p class="text-xs text-[#9CA3AF]">¥{{ "{:,}".format(item.product.price) }}</p>
-          </div>
-          <form action="{{ url_for('cart_update') }}" method="post" class="flex items-center gap-2">
-            <input type="hidden" name="product_id" value="{{ item.product.id }}">
-            <input type="number" name="qty" value="{{ item.qty }}" min="1" class="input-field w-16">
-            <button type="submit" class="btn-ghost">変更</button>
-          </form>
-          <p class="w-28 text-right text-sm font-semibold">¥{{ "{:,}".format(item.subtotal) }}</p>
-          <form action="{{ url_for('cart_remove') }}" method="post">
-            <input type="hidden" name="product_id" value="{{ item.product.id }}">
-            <button type="submit" class="text-sm text-[#9CA3AF] hover:text-accent">削除</button>
-          </form>
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="mt-6 flex items-center justify-between">
-      <p class="text-lg font-semibold">合計: ¥{{ "{:,}".format(total) }}</p>
-      <a href="{{ url_for('checkout') }}" class="btn-solid">注文する</a>
-    </div>
-  {% endif %}
+<div class="cart-layout">
+<div>
+<div class="card">
+{% for item in items %}
+<article class="cart-row">
+<a href="{{ url_for('product_detail', product_id=item.product.id) }}">
+<img src="{{ url_for('product_image', url=item.product.image_url) }}" alt="{{ item.product.name }}" width="88" height="88">
+</a>
+<div>
+<p class="product-category">{{ item.product.category }}</p>
+<h2>
+<a href="{{ url_for('product_detail', product_id=item.product.id) }}">{{ item.product.name }}</a>
+</h2>
+<p class="muted">¥{{ "{:,}".format(item.product.price) }}</p>
+<form action="{{ url_for('cart_update') }}" method="post" class="cart-quantity">
+<input type="hidden" name="product_id" value="{{ item.product.id }}">
+<input type="number" name="qty" value="{{ item.qty }}" min="1" class="input-field" aria-label="{{ item.product.name }}の数量">
+<button type="submit" class="btn-ghost">変更</button>
+</form>
+</div>
+<div class="cart-line-total">
+<p>¥{{ "{:,}".format(item.subtotal) }}</p>
+<form action="{{ url_for('cart_remove') }}" method="post">
+<input type="hidden" name="product_id" value="{{ item.product.id }}">
+<button type="submit" aria-label="{{ item.product.name }}を削除">削除</button>
+</form>
+</div>
+</article>
+{% endfor %}</div>
+<a href="{{ url_for('index') }}" class="text-link continue-link">買い物を続ける {{ icon('arrow') }}</a>
+</div>
+<aside class="order-summary">
+<p class="eyebrow mb-3">ORDER SUMMARY</p>
+<h2>ご注文内容</h2>
+<div class="summary-line">
+<span>商品点数</span>
+<span>{{ items | sum(attribute='qty') }} 点</span>
+</div>
+<div class="summary-line summary-total">
+<span>合計</span><strong>¥{{ "{:,}".format(total) }}</strong>
+</div>
+<a href="{{ url_for('checkout') }}" class="btn-solid">注文する {{ icon('arrow') }}</a>
+</aside>
+</div>
+{% endif %}
 {% endblock %}

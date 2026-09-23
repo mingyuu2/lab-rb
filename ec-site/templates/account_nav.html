@@ -1,0 +1,5 @@
+<nav class="account-nav" aria-label="アカウントメニュー">
+<a href="{{ url_for('profile') }}" class="{{ 'active' if request.endpoint in ['profile', 'profile_image_preview'] else '' }}">マイページ {{ icon('arrow') }}</a>
+<a href="{{ url_for('profile_edit') }}" class="{{ 'active' if request.endpoint == 'profile_edit' else '' }}">会員情報の変更 {{ icon('arrow') }}</a>
+<a href="{{ url_for('order_history') }}" class="{{ 'active' if request.endpoint == 'order_history' else '' }}">注文履歴 {{ icon('arrow') }}</a>
+</nav>

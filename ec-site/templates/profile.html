@@ -1,25 +1,30 @@
 {% extends "base.html" %}
+{% from "components.html" import heading %}
 {% block title %}マイページ — Nova Shop{% endblock %}
 {% block content %}
-  <h1 class="mb-6 text-2xl font-semibold">マイページ</h1>
-  <p class="mb-6 text-sm text-[#374151]">{{ display_name }} 様、ようこそ。</p>
-
-  <div class="mb-6 flex gap-4 text-sm">
-    <a href="{{ url_for('profile_edit') }}" class="text-accent hover:underline">会員情報の変更</a>
-    <a href="{{ url_for('order_history') }}" class="text-accent hover:underline">注文履歴</a>
-  </div>
-
-  <div class="card max-w-md p-6">
-    <h2 class="mb-4 text-sm font-semibold text-[#111827]">プロフィール画像URLの登録</h2>
-    {% if error %}
-      <p class="mb-4 text-sm text-red-600">{{ error }}</p>
-    {% endif %}
-    {% if image_url %}
-      <img src="{{ image_url }}" alt="プロフィール画像" class="mb-4 h-24 w-24 rounded-full object-cover">
-    {% endif %}
-    <form method="post" action="{{ url_for('profile_image_preview') }}" class="flex gap-2">
-      <input type="url" name="url" placeholder="http://example.com/avatar.png" class="input-field" required>
-      <button type="submit" class="btn-solid whitespace-nowrap">登録</button>
-    </form>
-  </div>
+  {{ heading('MY ACCOUNT', 'マイページ') }}<div class="account-layout">
+{% include "account_nav.html" %}
+<div class="account-content">
+<section class="account-welcome">
+<p class="eyebrow">WELCOME TO YOUR EVERYDAY</p>
+<h2>{{ display_name }} 様、ようこそ。</h2>
+</section>
+<section class="card form-panel">
+<h2>プロフィール画像URLの登録</h2>
+{% if error %}
+<p class="form-error" role="alert">{{ error }}</p>
+{% endif %}{% if image_url %}<img src="{{ image_url }}" alt="プロフィール画像" class="mb-6 h-24 w-24 rounded-full object-cover">
+{% else %}
+<div class="avatar-placeholder">{{ icon('user') }}</div>
+{% endif %}
+<form method="post" action="{{ url_for('profile_image_preview') }}">
+<label for="profile-image-url" class="field-label">画像URL</label>
+<div class="image-form">
+<input id="profile-image-url" type="url" name="url" placeholder="http://example.com/avatar.png" class="input-field" required>
+<button type="submit" class="btn-solid">登録 {{ icon('arrow') }}</button>
+</div>
+</form>
+</section>
+</div>
+</div>
 {% endblock %}

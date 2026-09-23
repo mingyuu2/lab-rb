@@ -8,13 +8,15 @@ module.exports = {
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
+          "Hiragino Kaku Gothic ProN",
+          "Noto Sans JP",
           "sans-serif",
         ],
       },
       colors: {
         accent: {
-          DEFAULT: "#6366F1",
-          hover: "#4F46E5",
+          DEFAULT: "#44563A",
+          hover: "#303F28",
         },
       },
       borderRadius: {

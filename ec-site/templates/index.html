@@ -1,29 +1,88 @@
 {% extends "base.html" %}
-{% block title %}Nova Shop — 全商品{% endblock %}
+{% block title %}Nova Shop — {{ '「' ~ query ~ '」の検索結果' if query else selected or '日々を、心地よく。' }}{% endblock %}
 {% block content %}
-  <div class="mb-8 flex flex-wrap items-center gap-2">
-    <a href="{{ url_for('index') }}"
-       class="rounded-control px-3 py-1.5 text-sm {{ 'bg-accent text-white' if not selected else 'border border-[#E5E7EB] bg-white text-[#374151] hover:border-accent hover:text-accent' }}">
-      すべて
-    </a>
-    {% for c in categories %}
-      <a href="{{ url_for('index', category=c) }}"
-         class="rounded-control px-3 py-1.5 text-sm {{ 'bg-accent text-white' if selected == c else 'border border-[#E5E7EB] bg-white text-[#374151] hover:border-accent hover:text-accent' }}">
-        {{ c }}
-      </a>
-    {% endfor %}
-  </div>
+  {% if not selected and not query %}
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> THE EVERYDAY EDIT</p>
+        <h1 id="hero-title">日々を、<br>心地よく<span class="lime-period">。</span></h1>
+        <p class="hero-description">好きなものと、暮らそう。<br>あなたの毎日に寄り添うアイテムを集めました。</p>
+        <a href="#collection" class="btn-lime">コレクションを見る {{ icon('arrow') }}</a>
+        <p class="hero-note">SIMPLE THINGS. BETTER DAYS.</p>
+      </div>
+      <div class="hero-art">
+        <img src="{{ url_for('static', filename='img/everyday-edit.svg') }}" alt="ランプ、本、植物を並べた落ち着いた暮らしのイラスト" width="680" height="540">
+        <span class="hero-sticker">A little<br><em>everyday</em><br>happiness. ✳</span>
+        <div class="hero-caption"><span>暮らしを整える、小さなきっかけ。</span><span>01 / EVERYDAY</span></div>
+      </div>
+    </section>
+    <div class="editorial-strip">
+      <span>LESS, BUT BETTER.</span>
+      <p>身につけるものから、部屋を彩るものまで。</p>
+      <span>暮らしのためのセレクション {{ icon('arrow') }}</span>
+    </div>
+  {% endif %}
 
-  <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-    {% for p in products %}
-      <a href="{{ url_for('product_detail', product_id=p.id) }}" class="card block overflow-hidden">
-        <img src="{{ url_for('product_image', url=p.image_url) }}" alt="{{ p.name }}" class="aspect-square w-full object-cover">
-        <div class="p-4">
-          <p class="text-xs text-[#9CA3AF]">{{ p.category }}</p>
-          <p class="mt-1 truncate text-sm font-medium">{{ p.name }}</p>
-          <p class="mt-1 text-sm font-semibold text-accent">¥{{ "{:,}".format(p.price) }}</p>
+  <section id="collection" class="collection-section" aria-labelledby="collection-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{{ 'FIND YOUR FAVORITES' if query else 'THE COLLECTION' }}</p>
+        {% if query or selected %}
+          <h1 id="collection-title">{{ '検索結果' if query else selected }}</h1>
+        {% else %}
+          <h2 id="collection-title">お気に入りを見つけよう。</h2>
+        {% endif %}
+      </div>
+      <span class="item-count">{{ products | length }} <span>items</span></span>
+    </div>
+    <form action="{{ url_for('index') }}#collection" method="get" class="catalog-search" role="search" aria-label="商品検索">
+      {% if selected %}<input type="hidden" name="category" value="{{ selected }}">{% endif %}
+      <div class="search-input-wrap">
+        {{ icon('search') }}
+        <label for="catalog-search" class="sr-only">商品を検索</label>
+        <input id="catalog-search" type="search" name="q" value="{{ query }}" class="input-field" placeholder="商品名・キーワードで検索" autocomplete="off">
+      </div>
+      <button type="submit" class="btn-solid">検索 {{ icon('arrow') }}</button>
+    </form>
+    {% if query %}
+      <div class="search-context">
+        <p>「{{ query }}」{% if selected %} · {{ selected }}{% endif %}の検索結果</p>
+        <a href="{{ url_for('index', category=selected) }}#collection" class="text-link">検索をクリア</a>
+      </div>
+    {% endif %}
+    <nav class="category-nav" aria-label="商品カテゴリー">
+      <a href="{{ url_for('index', q=query or none) }}#collection" class="category-pill {{ 'selected' if not selected else '' }}" {% if not selected %}aria-current="page"{% endif %}>すべて <span>↗</span></a>
+      {% for c in categories %}
+        <a href="{{ url_for('index', category=c, q=query or none) }}#collection" class="category-pill {{ 'selected' if selected == c else '' }}" {% if selected == c %}aria-current="page"{% endif %}>{{ c }}</a>
+      {% endfor %}
+    </nav>
+    <div class="product-grid">
+      {% for p in products %}
+        <a href="{{ url_for('product_detail', product_id=p.id) }}" class="product-card">
+          <div class="product-image">
+            <span class="product-number">N° {{ '%02d' | format(p.id) }}</span>
+            <img src="{{ url_for('product_image', url=p.image_url) }}" alt="{{ p.name }}" width="480" height="480">
+            <span class="product-arrow">{{ icon('arrow') }}</span>
+          </div>
+          <div class="product-info">
+            <p class="product-category">{{ p.category }}</p>
+            <h3>{{ p.name }}</h3>
+            <p class="product-price">¥{{ "{:,}".format(p.price) }}</p>
+          </div>
+        </a>
+      {% else %}
+        <div class="empty-state catalog-empty">
+          <div class="empty-symbol">{{ icon('search') }}</div>
+          <p>{{ '条件に合う商品が見つかりませんでした。' if query else 'このカテゴリーの商品はありません。' }}</p>
+          {% if query %}<p class="mt-2">別のキーワードやカテゴリーでお試しください。</p>{% endif %}
+          <a class="btn-solid" href="{{ url_for('index') }}#collection">すべての商品を見る {{ icon('arrow') }}</a>
         </div>
-      </a>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="closing-note">
+    <span class="closing-star" aria-hidden="true">✳</span>
+    <p>いつもの毎日を、<br><strong>少しだけ特別に。</strong></p>
+    <span>FIND YOUR EVERYDAY FAVORITES.</span>
+  </section>
 {% endblock %}

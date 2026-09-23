@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     product_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
     content TEXT NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5),
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 

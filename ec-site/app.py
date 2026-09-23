@@ -118,22 +118,24 @@ def logout():
 @app.route("/")
 def index():
     category = request.args.get("category")
+    query = request.args.get("q", "").strip()
     return render_template(
         "index.html",
-        products=get_products(category),
+        products=get_products(category, query),
         categories=get_categories(),
         selected=category,
+        query=query,
     )
 
 
 @app.route("/product/<int:product_id>")
-def product_detail(product_id):
+def product_detail(product_id, review_error=None, review_content=""):
     product = get_product(product_id)
     if not product:
         return "商品が見つかりません。", 404
     db = get_db()
     rows = db.execute(
-        "SELECT reviews.id, reviews.content, reviews.created_at, reviews.user_id, "
+        "SELECT reviews.id, reviews.content, reviews.created_at, reviews.user_id, reviews.rating, "
         "COALESCE(users.nickname, users.email) AS author "
         "FROM reviews JOIN users ON users.id = reviews.user_id "
         "WHERE reviews.product_id = ? ORDER BY reviews.id DESC",
@@ -149,11 +151,18 @@ def product_detail(product_id):
             "author": row["author"],
             "created_at": row["created_at"],
             "content": render_template_string(row["content"], product=product),
+            "rating": row["rating"],
             "is_own": row["user_id"] == session.get("user_id"),
         }
         for row in rows
     ]
-    return render_template("product_detail.html", product=product, reviews=reviews)
+    ratings = [review["rating"] for review in reviews if review["rating"] is not None]
+    average_rating = round(sum(ratings) / len(ratings), 1) if ratings else None
+    return render_template(
+        "product_detail.html", product=product, reviews=reviews,
+        average_rating=average_rating, rating_count=len(ratings),
+        review_error=review_error, review_content=review_content,
+    )
 
 
 @app.route("/product/<int:product_id>/review", methods=["POST"])
@@ -162,11 +171,18 @@ def product_review(product_id):
     if not get_product(product_id):
         return "商品が見つかりません。", 404
     content = request.form.get("content", "").strip()
+    raw_rating = request.form.get("rating", "").strip()
+    if raw_rating and raw_rating not in {"1", "2", "3", "4", "5"}:
+        return product_detail(
+            product_id, review_error="星の数は1〜5から選択してください。",
+            review_content=content,
+        ), 400
+    rating = int(raw_rating) if raw_rating else None
     if content:
         db = get_db()
         db.execute(
-            "INSERT INTO reviews (product_id, user_id, content) VALUES (?, ?, ?)",
-            (product_id, session["user_id"], content),
+            "INSERT INTO reviews (product_id, user_id, content, rating) VALUES (?, ?, ?, ?)",
+            (product_id, session["user_id"], content, rating),
         )
         db.commit()
     return redirect(url_for("product_detail", product_id=product_id))

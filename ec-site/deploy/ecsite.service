@@ -1,0 +1,14 @@
+[Unit]
+Description=ec-site gunicorn (Flask app, loopback only -- Apache fronts it)
+After=network.target
+
+[Service]
+User=webuser
+Group=webuser
+WorkingDirectory=/var/www/ec-site
+Environment=PATH=/var/www/ec-site/venv/bin
+ExecStart=/var/www/ec-site/venv/bin/gunicorn --workers 2 --threads 4 --bind 127.0.0.1:8000 app:app
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

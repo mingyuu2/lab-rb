@@ -6,7 +6,7 @@
     "price": 9900,
     "description": "ノイズキャンセリング機能付きのワイヤレスイヤホンです。",
     "image": "p1.svg",
-    "image_url": "http://ec-site/static/img/products/p1.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p1.svg"
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@
     "price": 22100,
     "description": "心拍数・睡眠測定が可能なスマートウォッチです。",
     "image": "p2.svg",
-    "image_url": "http://ec-site/static/img/products/p2.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p2.svg"
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "price": 4300,
     "description": "急速充電に対応した大容量モバイルバッテリーです。",
     "image": "p3.svg",
-    "image_url": "http://ec-site/static/img/products/p3.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p3.svg"
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@
     "price": 5000,
     "description": "持ち運びに便利な小型Bluetoothスピーカーです。",
     "image": "p4.svg",
-    "image_url": "http://ec-site/static/img/products/p4.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p4.svg"
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@
     "price": 3600,
     "description": "HDMI・USB・SDカードに対応したマルチハブです。",
     "image": "p5.svg",
-    "image_url": "http://ec-site/static/img/products/p5.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p5.svg"
   },
   {
     "id": 6,
@@ -51,7 +51,7 @@
     "price": 3200,
     "description": "柔らかいコットン素材のオーバーサイズTシャツです。",
     "image": "p6.svg",
-    "image_url": "http://ec-site/static/img/products/p6.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p6.svg"
   },
   {
     "id": 7,
@@ -60,7 +60,7 @@
     "price": 6600,
     "description": "伸縮性に優れたスリムフィットデニムパンツです。",
     "image": "p7.svg",
-    "image_url": "http://ec-site/static/img/products/p7.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p7.svg"
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@
     "price": 14300,
     "description": "軽くて暖かい軽量ダウンジャケットです。",
     "image": "p8.svg",
-    "image_url": "http://ec-site/static/img/products/p8.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p8.svg"
   },
   {
     "id": 9,
@@ -78,7 +78,7 @@
     "price": 7700,
     "description": "肌触りの良いクラシックニットカーディガンです。",
     "image": "p9.svg",
-    "image_url": "http://ec-site/static/img/products/p9.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p9.svg"
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@
     "price": 8800,
     "description": "軽やかに履けるキャンバススニーカーです。",
     "image": "p10.svg",
-    "image_url": "http://ec-site/static/img/products/p10.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p10.svg"
   },
   {
     "id": 11,
@@ -96,7 +96,7 @@
     "price": 3900,
     "description": "ほのかな香りを広げるセラミックディフューザーです。",
     "image": "p11.svg",
-    "image_url": "http://ec-site/static/img/products/p11.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p11.svg"
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@
     "price": 4700,
     "description": "ふんわりとした肌触りのマイクロファイバー毛布です。",
     "image": "p12.svg",
-    "image_url": "http://ec-site/static/img/products/p12.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p12.svg"
   },
   {
     "id": 13,
@@ -114,7 +114,7 @@
     "price": 2800,
     "description": "インテリア小物として人気の無垢材トレーです。",
     "image": "p13.svg",
-    "image_url": "http://ec-site/static/img/products/p13.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p13.svg"
   },
   {
     "id": 14,
@@ -123,7 +123,7 @@
     "price": 5300,
     "description": "やわらかな灯りのムードランプスタンドです。",
     "image": "p14.svg",
-    "image_url": "http://ec-site/static/img/products/p14.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p14.svg"
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@
     "price": 2400,
     "description": "スペースを有効活用できる収納ボックス3点セットです。",
     "image": "p15.svg",
-    "image_url": "http://ec-site/static/img/products/p15.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p15.svg"
   },
   {
     "id": 16,
@@ -141,7 +141,7 @@
     "price": 3600,
     "description": "さっぱりと馴染む保湿クリームです。",
     "image": "p16.svg",
-    "image_url": "http://ec-site/static/img/products/p16.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p16.svg"
   },
   {
     "id": 17,
@@ -150,7 +150,7 @@
     "price": 4200,
     "description": "肌のトーンアップをサポートするセラムです。",
     "image": "p17.svg",
-    "image_url": "http://ec-site/static/img/products/p17.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p17.svg"
   },
   {
     "id": 18,
@@ -159,7 +159,7 @@
     "price": 2000,
     "description": "しっとり潤うリップバーム3本セットです。",
     "image": "p18.svg",
-    "image_url": "http://ec-site/static/img/products/p18.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p18.svg"
   },
   {
     "id": 19,
@@ -168,7 +168,7 @@
     "price": 2300,
     "description": "低刺激でやさしい洗顔フォームです。",
     "image": "p19.svg",
-    "image_url": "http://ec-site/static/img/products/p19.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p19.svg"
   },
   {
     "id": 20,
@@ -177,7 +177,7 @@
     "price": 3000,
     "description": "さらっとした使用感の日焼け止めです。",
     "image": "p20.svg",
-    "image_url": "http://ec-site/static/img/products/p20.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p20.svg"
   },
   {
     "id": 21,
@@ -186,7 +186,7 @@
     "price": 3900,
     "description": "滑り止め加工が施されたヨガマットです。",
     "image": "p21.svg",
-    "image_url": "http://ec-site/static/img/products/p21.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p21.svg"
   },
   {
     "id": 22,
@@ -195,7 +195,7 @@
     "price": 5000,
     "description": "軽量で折りたためるキャンプチェアです。",
     "image": "p22.svg",
-    "image_url": "http://ec-site/static/img/products/p22.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p22.svg"
   },
   {
     "id": 23,
@@ -204,7 +204,7 @@
     "price": 9900,
     "description": "丈夫で収納力抜群の登山用リュックです。",
     "image": "p23.svg",
-    "image_url": "http://ec-site/static/img/products/p23.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p23.svg"
   },
   {
     "id": 24,
@@ -213,7 +213,7 @@
     "price": 11000,
     "description": "クッション性に優れたランニングシューズです。",
     "image": "p24.svg",
-    "image_url": "http://ec-site/static/img/products/p24.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p24.svg"
   },
   {
     "id": 25,
@@ -222,7 +222,7 @@
     "price": 2700,
     "description": "保温・保冷が長持ちするタンブラーです。",
     "image": "p25.svg",
-    "image_url": "http://ec-site/static/img/products/p25.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p25.svg"
   },
   {
     "id": 26,
@@ -231,7 +231,7 @@
     "price": 3700,
     "description": "話題のベストセラー小説3冊セットです。",
     "image": "p26.svg",
-    "image_url": "http://ec-site/static/img/products/p26.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p26.svg"
   },
   {
     "id": 27,
@@ -240,7 +240,7 @@
     "price": 1300,
     "description": "書き心地の良い無地ノート3冊セットです。",
     "image": "p27.svg",
-    "image_url": "http://ec-site/static/img/products/p27.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p27.svg"
   },
   {
     "id": 28,
@@ -249,7 +249,7 @@
     "price": 5000,
     "description": "なめらかな書き心地のクラシック万年筆です。",
     "image": "p28.svg",
-    "image_url": "http://ec-site/static/img/products/p28.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p28.svg"
   },
   {
     "id": 29,
@@ -258,7 +258,7 @@
     "price": 2100,
     "description": "シンプルなデザインの2026年ダイアリーです。",
     "image": "p29.svg",
-    "image_url": "http://ec-site/static/img/products/p29.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p29.svg"
   },
   {
     "id": 30,
@@ -267,7 +267,7 @@
     "price": 1000,
     "description": "発色の良い蛍光ペン6色セットです。",
     "image": "p30.svg",
-    "image_url": "http://ec-site/static/img/products/p30.svg"
+    "image_url": "http://127.0.0.1/static/img/products/p30.svg"
   },
   {
     "id": 31,
@@ -276,7 +276,7 @@
     "price": 15800,
     "description": "長時間のリスニングにも使いやすい、軽量のワイヤレスヘッドホンです。",
     "image": "p31.svg",
-    "image_url": "http://ec-site/static/img/products/p31.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p31.svg",
     "illustration": "headphones"
   },
   {
@@ -286,7 +286,7 @@
     "price": 6900,
     "description": "Bluetooth接続でデスクをすっきり整える日本語配列キーボードです。",
     "image": "p32.svg",
-    "image_url": "http://ec-site/static/img/products/p32.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p32.svg",
     "illustration": "keyboard"
   },
   {
@@ -296,7 +296,7 @@
     "price": 2800,
     "description": "クリック音を抑えた、手になじむコンパクトなマウスです。",
     "image": "p33.svg",
-    "image_url": "http://ec-site/static/img/products/p33.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p33.svg",
     "illustration": "mouse"
   },
   {
@@ -306,7 +306,7 @@
     "price": 3900,
     "description": "スマートフォンやノートPCに使える、小型のUSB-C充電器です。",
     "image": "p34.svg",
-    "image_url": "http://ec-site/static/img/products/p34.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p34.svg",
     "illustration": "charger"
   },
   {
@@ -316,7 +316,7 @@
     "price": 4200,
     "description": "目線の高さを調整できる、持ち運びやすいアルミ製スタンドです。",
     "image": "p35.svg",
-    "image_url": "http://ec-site/static/img/products/p35.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p35.svg",
     "illustration": "stand"
   },
   {
@@ -326,7 +326,7 @@
     "price": 12800,
     "description": "写真や書類をまとめて持ち運べる、USB-C接続の外付けSSDです。",
     "image": "p36.svg",
-    "image_url": "http://ec-site/static/img/products/p36.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p36.svg",
     "illustration": "ssd"
   },
   {
@@ -336,7 +336,7 @@
     "price": 5400,
     "description": "オンライン会議に使いやすい、マイク内蔵のUSBウェブカメラです。",
     "image": "p37.svg",
-    "image_url": "http://ec-site/static/img/products/p37.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p37.svg",
     "illustration": "camera"
   },
   {
@@ -346,7 +346,7 @@
     "price": 2400,
     "description": "対応スマートフォンを置くだけで充電できる薄型パッドです。",
     "image": "p38.svg",
-    "image_url": "http://ec-site/static/img/products/p38.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p38.svg",
     "illustration": "charging_pad"
   },
   {
@@ -356,7 +356,7 @@
     "price": 24800,
     "description": "散歩や旅行の風景を気軽に記録できる、小型デジタルカメラです。",
     "image": "p39.svg",
-    "image_url": "http://ec-site/static/img/products/p39.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p39.svg",
     "illustration": "digital_camera"
   },
   {
@@ -366,7 +366,7 @@
     "price": 17900,
     "description": "読書に集中できるシンプルな画面と軽量ボディの電子書籍端末です。",
     "image": "p40.svg",
-    "image_url": "http://ec-site/static/img/products/p40.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p40.svg",
     "illustration": "reader"
   },
   {
@@ -376,7 +376,7 @@
     "price": 19800,
     "description": "壁に映して映画や写真を楽しめる、コンパクトなプロジェクターです。",
     "image": "p41.svg",
-    "image_url": "http://ec-site/static/img/products/p41.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p41.svg",
     "illustration": "projector"
   },
   {
@@ -386,7 +386,7 @@
     "price": 2600,
     "description": "デスクでも外出先でも使える、USB充電式の小型扇風機です。",
     "image": "p42.svg",
-    "image_url": "http://ec-site/static/img/products/p42.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p42.svg",
     "illustration": "fan"
   },
   {
@@ -396,7 +396,7 @@
     "price": 5900,
     "description": "さらりとした肌触りで季節の変わり目に使いやすい長袖シャツです。",
     "image": "p43.svg",
-    "image_url": "http://ec-site/static/img/products/p43.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p43.svg",
     "illustration": "shirt"
   },
   {
@@ -406,7 +406,7 @@
     "price": 6400,
     "description": "ゆったりしたシルエットと柔らかな裏毛素材のフード付きパーカーです。",
     "image": "p44.svg",
-    "image_url": "http://ec-site/static/img/products/p44.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p44.svg",
     "illustration": "hoodie"
   },
   {
@@ -416,7 +416,7 @@
     "price": 2900,
     "description": "A4サイズの書類も入る、丈夫なコットンキャンバスのトートバッグです。",
     "image": "p45.svg",
-    "image_url": "http://ec-site/static/img/products/p45.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p45.svg",
     "illustration": "tote"
   },
   {
@@ -426,7 +426,7 @@
     "price": 2500,
     "description": "後ろのベルトでサイズ調整できる、日常使いのシンプルなキャップです。",
     "image": "p46.svg",
-    "image_url": "http://ec-site/static/img/products/p46.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p46.svg",
     "illustration": "cap"
   },
   {
@@ -436,7 +436,7 @@
     "price": 4800,
     "description": "首元をやさしく包む、落ち着いた色合いのフリンジ付きマフラーです。",
     "image": "p47.svg",
-    "image_url": "http://ec-site/static/img/products/p47.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p47.svg",
     "illustration": 12
   },
   {
@@ -446,7 +446,7 @@
     "price": 1600,
     "description": "毎日のコーディネートに合わせやすい、ベーシックカラーの靴下セットです。",
     "image": "p48.svg",
-    "image_url": "http://ec-site/static/img/products/p48.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p48.svg",
     "illustration": "socks"
   },
   {
@@ -456,7 +456,7 @@
     "price": 6200,
     "description": "カジュアルにもきれいめにも合わせやすい、すっきりしたチノパンツです。",
     "image": "p49.svg",
-    "image_url": "http://ec-site/static/img/products/p49.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p49.svg",
     "illustration": 7
   },
   {
@@ -466,7 +466,7 @@
     "price": 7200,
     "description": "軽い羽織りとして使える、季節を選ばない綿素材のカーディガンです。",
     "image": "p50.svg",
-    "image_url": "http://ec-site/static/img/products/p50.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p50.svg",
     "illustration": 9
   },
   {
@@ -476,7 +476,7 @@
     "price": 8200,
     "description": "柔らかなサンドカラーが足元になじむ、軽量スニーカーです。",
     "image": "p51.svg",
-    "image_url": "http://ec-site/static/img/products/p51.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p51.svg",
     "illustration": 10
   },
   {
@@ -486,7 +486,7 @@
     "price": 7900,
     "description": "通勤や通学にちょうどよいサイズの、ポケット付きリュックです。",
     "image": "p52.svg",
-    "image_url": "http://ec-site/static/img/products/p52.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p52.svg",
     "illustration": 23
   },
   {
@@ -496,7 +496,7 @@
     "price": 3900,
     "description": "好きな位置で留められる、編み込みデザインのレザーベルトです。",
     "image": "p53.svg",
-    "image_url": "http://ec-site/static/img/products/p53.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p53.svg",
     "illustration": "belt"
   },
   {
@@ -506,7 +506,7 @@
     "price": 3400,
     "description": "財布とスマートフォンをまとめて持てる、軽いショルダーバッグです。",
     "image": "p54.svg",
-    "image_url": "http://ec-site/static/img/products/p54.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p54.svg",
     "illustration": "pouch"
   },
   {
@@ -516,7 +516,7 @@
     "price": 1800,
     "description": "手になじむ丸みのある形と、マットな釉薬が特徴の陶器マグです。",
     "image": "p55.svg",
-    "image_url": "http://ec-site/static/img/products/p55.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p55.svg",
     "illustration": "mug"
   },
   {
@@ -526,7 +526,7 @@
     "price": 2400,
     "description": "温かい飲み物にも冷たい飲み物にも使える、透明なガラスカップです。",
     "image": "p56.svg",
-    "image_url": "http://ec-site/static/img/products/p56.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p56.svg",
     "illustration": "glass"
   },
   {
@@ -536,7 +536,7 @@
     "price": 2200,
     "description": "毎日の食卓で使いやすい、余白のあるシンプルな陶器プレートです。",
     "image": "p57.svg",
-    "image_url": "http://ec-site/static/img/products/p57.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p57.svg",
     "illustration": "plate"
   },
   {
@@ -546,7 +546,7 @@
     "price": 5600,
     "description": "天然木のフレームと読みやすい文字盤の壁掛け時計です。",
     "image": "p58.svg",
-    "image_url": "http://ec-site/static/img/products/p58.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p58.svg",
     "illustration": "clock"
   },
   {
@@ -556,7 +556,7 @@
     "price": 3200,
     "description": "ざっくりとしたリネンの風合いを楽しめる、中材付きクッションです。",
     "image": "p59.svg",
-    "image_url": "http://ec-site/static/img/products/p59.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p59.svg",
     "illustration": "cushion"
   },
   {
@@ -566,7 +566,7 @@
     "price": 4900,
     "description": "ソファやベッドにさっと掛けられる、通気性のよい綿のブランケットです。",
     "image": "p60.svg",
-    "image_url": "http://ec-site/static/img/products/p60.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p60.svg",
     "illustration": 12
   },
   {
@@ -576,7 +576,7 @@
     "price": 2800,
     "description": "一輪挿しにも小さな花束にも使える、丸みのある陶器の花瓶です。",
     "image": "p61.svg",
-    "image_url": "http://ec-site/static/img/products/p61.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p61.svg",
     "illustration": "vase"
   },
   {
@@ -586,7 +586,7 @@
     "price": 2600,
     "description": "植物由来のワックスを使った、穏やかな香りのキャンドルです。",
     "image": "p62.svg",
-    "image_url": "http://ec-site/static/img/products/p62.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p62.svg",
     "illustration": "candle"
   },
   {
@@ -596,7 +596,7 @@
     "price": 3400,
     "description": "玄関やデスクにもなじむ、木製スタンド付きの丸いミラーです。",
     "image": "p63.svg",
-    "image_url": "http://ec-site/static/img/products/p63.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p63.svg",
     "illustration": "mirror"
   },
   {
@@ -606,7 +606,7 @@
     "price": 1900,
     "description": "小物やタオルをまとめられる、使わない時は畳める収納ボックスです。",
     "image": "p64.svg",
-    "image_url": "http://ec-site/static/img/products/p64.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p64.svg",
     "illustration": 15
   },
   {
@@ -616,7 +616,7 @@
     "price": 6800,
     "description": "好きな場所に持ち運べる、やわらかな光の充電式テーブルランプです。",
     "image": "p65.svg",
-    "image_url": "http://ec-site/static/img/products/p65.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p65.svg",
     "illustration": 14
   },
   {
@@ -626,7 +626,7 @@
     "price": 3200,
     "description": "お茶の時間や小物の整理に使える、オーク材のトレーです。",
     "image": "p66.svg",
-    "image_url": "http://ec-site/static/img/products/p66.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p66.svg",
     "illustration": 13
   },
   {
@@ -636,7 +636,7 @@
     "price": 2400,
     "description": "毎日のヘアケアに使いやすい、しっとりした洗い上がりのシャンプーです。",
     "image": "p67.svg",
-    "image_url": "http://ec-site/static/img/products/p67.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p67.svg",
     "illustration": "pump"
   },
   {
@@ -646,7 +646,7 @@
     "price": 2400,
     "description": "毛先までなじませやすい、なめらかな使い心地のコンディショナーです。",
     "image": "p68.svg",
-    "image_url": "http://ec-site/static/img/products/p68.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p68.svg",
     "illustration": "pump"
   },
   {
@@ -656,7 +656,7 @@
     "price": 1200,
     "description": "手肌の乾燥が気になる時に使える、携帯サイズのハンドクリームです。",
     "image": "p69.svg",
-    "image_url": "http://ec-site/static/img/products/p69.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p69.svg",
     "illustration": 19
   },
   {
@@ -666,7 +666,7 @@
     "price": 2800,
     "description": "洗顔後の肌にうるおいを与える、軽い使い心地の化粧水です。",
     "image": "p70.svg",
-    "image_url": "http://ec-site/static/img/products/p70.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p70.svg",
     "illustration": 17
   },
   {
@@ -676,7 +676,7 @@
     "price": 1500,
     "description": "乾燥が気になる日のケアに使える、個包装のシートマスクです。",
     "image": "p71.svg",
-    "image_url": "http://ec-site/static/img/products/p71.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p71.svg",
     "illustration": "packet"
   },
   {
@@ -686,7 +686,7 @@
     "price": 2200,
     "description": "きめ細かな泡で洗える、毎日使いのポンプ式ボディソープです。",
     "image": "p72.svg",
-    "image_url": "http://ec-site/static/img/products/p72.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p72.svg",
     "illustration": "pump"
   },
   {
@@ -696,7 +696,7 @@
     "price": 2600,
     "description": "毛先のスタイリングに少量ずつ使える、しっとりしたヘアオイルです。",
     "image": "p73.svg",
-    "image_url": "http://ec-site/static/img/products/p73.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p73.svg",
     "illustration": 17
   },
   {
@@ -706,7 +706,7 @@
     "price": 1900,
     "description": "外出先でも使いやすい、細かな霧の携帯用フェイスミストです。",
     "image": "p74.svg",
-    "image_url": "http://ec-site/static/img/products/p74.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p74.svg",
     "illustration": 17
   },
   {
@@ -716,7 +716,7 @@
     "price": 900,
     "description": "持ち歩きに便利な、無香料タイプのスティックリップバームです。",
     "image": "p75.svg",
-    "image_url": "http://ec-site/static/img/products/p75.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p75.svg",
     "illustration": 18
   },
   {
@@ -726,7 +726,7 @@
     "price": 1800,
     "description": "唇や指先など、乾燥が気になる部分に使える小さな保湿バームです。",
     "image": "p76.svg",
-    "image_url": "http://ec-site/static/img/products/p76.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p76.svg",
     "illustration": 16
   },
   {
@@ -736,7 +736,7 @@
     "price": 1400,
     "description": "持ち手になじむ天然木を使った、粗めの歯のヘアコームです。",
     "image": "p77.svg",
-    "image_url": "http://ec-site/static/img/products/p77.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p77.svg",
     "illustration": "comb"
   },
   {
@@ -746,7 +746,7 @@
     "price": 1600,
     "description": "ポーチに入れて持ち運べる、丸い形のコンパクトミラーです。",
     "image": "p78.svg",
-    "image_url": "http://ec-site/static/img/products/p78.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p78.svg",
     "illustration": "mirror"
   },
   {
@@ -756,7 +756,7 @@
     "price": 3200,
     "description": "持ち運びやすく、自宅や外出先でストレッチに使える薄型マットです。",
     "image": "p79.svg",
-    "image_url": "http://ec-site/static/img/products/p79.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p79.svg",
     "illustration": 21
   },
   {
@@ -766,7 +766,7 @@
     "price": 8900,
     "description": "ジョギングやウォーキングに使いやすい、軽量メッシュのシューズです。",
     "image": "p80.svg",
-    "image_url": "http://ec-site/static/img/products/p80.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p80.svg",
     "illustration": 24
   },
   {
@@ -776,7 +776,7 @@
     "price": 12800,
     "description": "街歩きから軽いハイキングまで使える、グリップのあるシューズです。",
     "image": "p81.svg",
-    "image_url": "http://ec-site/static/img/products/p81.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p81.svg",
     "illustration": 24
   },
   {
@@ -786,7 +786,7 @@
     "price": 2400,
     "description": "バッグに収まりやすいサイズの、ステンレス製の保温保冷ボトルです。",
     "image": "p82.svg",
-    "image_url": "http://ec-site/static/img/products/p82.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p82.svg",
     "illustration": 25
   },
   {
@@ -796,7 +796,7 @@
     "price": 6400,
     "description": "焚き火の時間にも使いやすい、座面の低い折りたたみチェアです。",
     "image": "p83.svg",
-    "image_url": "http://ec-site/static/img/products/p83.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p83.svg",
     "illustration": 22
   },
   {
@@ -806,7 +806,7 @@
     "price": 16800,
     "description": "週末のキャンプに使いやすい、収納袋付きの二人用テントです。",
     "image": "p84.svg",
-    "image_url": "http://ec-site/static/img/products/p84.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p84.svg",
     "illustration": "tent"
   },
   {
@@ -816,7 +816,7 @@
     "price": 4900,
     "description": "身長や地形に合わせて長さを調整できる、登山用ポール2本セットです。",
     "image": "p85.svg",
-    "image_url": "http://ec-site/static/img/products/p85.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p85.svg",
     "illustration": "poles"
   },
   {
@@ -826,7 +826,7 @@
     "price": 3200,
     "description": "自宅での軽いトレーニングに使える、握りやすいダンベルです。",
     "image": "p86.svg",
-    "image_url": "http://ec-site/static/img/products/p86.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p86.svg",
     "illustration": "dumbbells"
   },
   {
@@ -836,7 +836,7 @@
     "price": 1800,
     "description": "運動後や旅行中にも使いやすい、薄手で乾きやすいタオルです。",
     "image": "p87.svg",
-    "image_url": "http://ec-site/static/img/products/p87.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p87.svg",
     "illustration": 12
   },
   {
@@ -846,7 +846,7 @@
     "price": 2200,
     "description": "鍵や小物を入れて走れる、体にフィットするコンパクトポーチです。",
     "image": "p88.svg",
-    "image_url": "http://ec-site/static/img/products/p88.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p88.svg",
     "illustration": "pouch"
   },
   {
@@ -856,7 +856,7 @@
     "price": 4500,
     "description": "テーブルを照らすやわらかな光の、持ち手付き充電式ランタンです。",
     "image": "p89.svg",
-    "image_url": "http://ec-site/static/img/products/p89.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p89.svg",
     "illustration": "lantern"
   },
   {
@@ -866,7 +866,7 @@
     "price": 980,
     "description": "図やアイデアを書き留めやすい、5mm方眼のノートセットです。",
     "image": "p90.svg",
-    "image_url": "http://ec-site/static/img/products/p90.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p90.svg",
     "illustration": 27
   },
   {
@@ -876,7 +876,7 @@
     "price": 1400,
     "description": "鉛筆や色鉛筆でのスケッチに使いやすい、厚手の紙のスケッチブックです。",
     "image": "p91.svg",
-    "image_url": "http://ec-site/static/img/products/p91.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p91.svg",
     "illustration": 27
   },
   {
@@ -886,7 +886,7 @@
     "price": 1900,
     "description": "程よい重さで手になじむ、シンプルなアルミ製ボールペンです。",
     "image": "p92.svg",
-    "image_url": "http://ec-site/static/img/products/p92.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p92.svg",
     "illustration": 28
   },
   {
@@ -896,7 +896,7 @@
     "price": 1200,
     "description": "ノートや手帳の彩りに使える、落ち着いた色合いの水性ペンです。",
     "image": "p93.svg",
-    "image_url": "http://ec-site/static/img/products/p93.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p93.svg",
     "illustration": 30
   },
   {
@@ -906,7 +906,7 @@
     "price": 2800,
     "description": "ペンやメモをまとめて収納できる、天然木の卓上オーガナイザーです。",
     "image": "p94.svg",
-    "image_url": "http://ec-site/static/img/products/p94.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p94.svg",
     "illustration": "organizer"
   },
   {
@@ -916,7 +916,7 @@
     "price": 900,
     "description": "読みかけのページをそっと挟める、薄型の真鍮しおりです。",
     "image": "p95.svg",
-    "image_url": "http://ec-site/static/img/products/p95.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p95.svg",
     "illustration": "bookmark"
   },
   {
@@ -926,7 +926,7 @@
     "price": 2200,
     "description": "旬の食材を使った、家庭で楽しめるシンプルなレシピを集めた一冊です。",
     "image": "p96.svg",
-    "image_url": "http://ec-site/static/img/products/p96.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p96.svg",
     "illustration": 26
   },
   {
@@ -936,7 +936,7 @@
     "price": 1800,
     "description": "日々の小さな発見をつづった、ゆっくり読みたいエッセイ集です。",
     "image": "p97.svg",
-    "image_url": "http://ec-site/static/img/products/p97.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p97.svg",
     "illustration": 26
   },
   {
@@ -946,7 +946,7 @@
     "price": 1300,
     "description": "読んだ本の感想や印象的な言葉を書き留められる、読書用ノートです。",
     "image": "p98.svg",
-    "image_url": "http://ec-site/static/img/products/p98.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p98.svg",
     "illustration": 27
   },
   {
@@ -956,7 +956,7 @@
     "price": 1600,
     "description": "日付を自由に書き込める、見開き一週間の予定管理ノートです。",
     "image": "p99.svg",
-    "image_url": "http://ec-site/static/img/products/p99.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p99.svg",
     "illustration": 29
   },
   {
@@ -966,7 +966,7 @@
     "price": 1100,
     "description": "手帳や勉強のマーキングに使える、淡い色の蛍光ペンセットです。",
     "image": "p100.svg",
-    "image_url": "http://ec-site/static/img/products/p100.svg",
+    "image_url": "http://127.0.0.1/static/img/products/p100.svg",
     "illustration": 30
   }
 ]
